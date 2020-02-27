@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { 
   AppBar,
   Toolbar,
@@ -52,15 +52,6 @@ const HideOnScroll = (props: any) => {
 const HeaderNav = (props: any):any => {
   const classes = useStyles();
   const appBarClasses = appBarStyles();
-  const [windowWidth, setWindowWidth] = React.useState(window.outerWidth);
-
-  React.useEffect(() => {
-    const windowWidthHandler = () => {
-      setWindowWidth(window.outerWidth);
-    }
-    window.addEventListener('resize', windowWidthHandler);
-    return () => window.removeEventListener('resize', windowWidthHandler);
-  }, [window.outerWidth]);
 
   return (
     <div className={classes.root}>

@@ -1,12 +1,19 @@
+const path = require('path');
+
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
+  },
   devServer:{
-    contentBase: './dist',
-    port: 8888
+    // contentBase: './dist',
+    port: 8888,
+    historyApiFallback: true
   },
   module: {
     rules: [

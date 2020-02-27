@@ -1,3 +1,11 @@
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+body {
+  margin:0;
+}
+
 .hello {
   color: red;
 }
@@ -20,7 +28,7 @@
 .containerDiv {
   display:grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 1px;
+  grid-gap: 1px;
   align-content: space-between
 }
 
@@ -58,6 +66,119 @@
   align-self:end;
 }
 
-body {
-  margin:0;
+#icon-scroll-small {
+  white-space:nowrap;
+  scrollbar-width:none;
+  overflow:scroll;
+  div {
+    background-color: gray;
+    border-radius:50%;
+    height:15vh;
+    width:15vh;
+    display:inline-grid;
+    margin: 3px;
+  }
+}
+
+#icon-scroll-small::-webkit-scrollbar {
+  display:none;
+}
+
+#icon-scroll-large::-webkit-scrollbar {
+  display:none;
+}
+
+#icon-scroll-large {
+  white-space:nowrap;
+  scrollbar-width:none;
+  overflow:scroll;
+  div {
+    background-color: gray;
+    border-radius:50%;
+    height:20vh;
+    width:20vh;
+    display:inline-grid;
+    margin: 3px;
+  }
+}
+
+#buttonScroll::-webkit-scrollbar {
+  display:none;
+}
+
+#buttonScroll {
+  overflow:scroll;
+  white-space:nowrap;
+  button{
+    margin:5px;
+    width:22.5vw;
+  }
+}
+
+hr {
+  border-style:solid;
+  border-width: 0.11px;
+}
+
+#inbox-blurb {
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  p {
+    text-align:center;
+
+  }
+  button {
+    display:block;
+  }
+}
+
+.videoScroll::-webkit-scrollbar {
+  display:none;
+}
+
+.videoScroll {
+  white-space:nowrap;
+  overflow:scroll;
+  .recentDiv {
+    display:inline-grid;
+    margin:0 0.5rem;
+    height:26vh;
+    width:40vw;
+    max-width:270px;
+    min-width:240px;
+    min-height:135px;
+    max-height: 180px;
+    .recentVideo {
+      background-color:gray;
+      height:13vh;
+      width: 40vw;
+      max-width:270px;
+      min-width:240px;
+      min-height:135px;
+      max-height: 180px;
+    }
+    .recentInfo {
+      background-color:beige;
+      height:13vh;
+      width:40vw;
+      max-width:270px;
+      min-width:240px;
+      min-height:135px;
+      max-height: 180px;
+    }
+  }
+  .recentDivStart {
+    margin:0 0.5rem 0 1rem;
+    
+  }
+  .recentDivEnd {
+    margin:0 1rem 0 0.5rem;
+  }
+}
+
+#libHorizontalRule {
+  margin-top:1rem;
 }
