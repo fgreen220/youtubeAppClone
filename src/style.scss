@@ -1,0 +1,63 @@
+.hello {
+  color: red;
+}
+
+.MuiBottomNavigationAction-root.Mui-selected svg {
+  color:white;
+}
+.MuiBottomNavigationAction-root.Mui-selected span {
+  color:white;
+}
+
+.MuiBottomNavigationAction-wrapper svg {
+  color: #9e9e9e;
+}
+
+.MuiButtonBase-root.MuiIconButton-root span {
+  color: white;
+}
+
+.containerDiv {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1px;
+  align-content: space-between
+}
+
+.videoContainer {
+  display:grid;
+  height: 30vh;
+  // width: 100vw;
+  background-color: gray;
+  align-self: start;
+}
+
+.infoContainer {
+  display:grid;
+  height: 10vh;
+  // width: 100vw;
+  background-color: #212121;
+  align-self: end;
+}
+
+.videoContainer1 {
+  display:grid;
+  grid-column: 2/3;
+  height: 30vh;
+  // width: 100vw;
+  background-color: gray;
+  align-self: start;
+}
+
+.infoContainer1 {
+  display:grid;
+  grid-column: 2/3;
+  height: 10vh;
+  // width: 100vw;
+  background-color: #212121;
+  align-self:end;
+}
+
+body {
+  margin:0;
+}
