@@ -11,7 +11,7 @@ module.exports = {
     publicPath: '/'
   },
   devServer:{
-    // contentBase: './dist',
+    contentBase: './dist',
     port: 8888,
     historyApiFallback: true
   },

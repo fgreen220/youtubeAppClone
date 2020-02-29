@@ -3,13 +3,25 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   makeStyles,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
  } from '@material-ui/core';
 import {
   Home,
   Whatshot,
   Subscriptions,
   Mail,
-  VideoLibrary
+  VideoLibrary,
+  History,
+  Slideshow,
+  LocalOffer,
+  WatchLater,
+  ThumbUp,
+  Add
+
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import VideoScroll from './VideoScroll';
@@ -85,6 +97,65 @@ export default function BottomNav(props: any) {
         </Route>
         <Route path='/library'>
           <VideoScroll page='library' />
+          <hr />
+          <div id='library-middle'>
+            <Button
+              variant='contained'
+              startIcon={<History />}
+            >
+              History
+            </Button>
+            <Button
+              variant='contained'
+              startIcon={<Slideshow />}
+            >
+              Your Videos
+            </Button>
+            <Button
+              variant='contained'
+              startIcon={<LocalOffer />}
+            >
+              Purchases
+            </Button>
+            <Button
+              variant='contained'
+              startIcon={<WatchLater />}
+              id='watch-later-button'
+            >
+              <div>
+              <p id='watch-later'>Watch Later</p>
+              <p id='watched-videos'>0 watched videos</p>
+              </div>
+            </Button>
+          </div>
+          <hr />
+          <div>
+            <p>Playlists</p>
+            <FormControl>
+              <InputLabel id='select-label'>
+                Recently Added
+              </InputLabel>
+              <Select
+              labelId='select-label'
+              id='select-label'
+              >
+                <MenuItem>A-Z</MenuItem>
+                <MenuItem>Recently Added</MenuItem>
+              </Select>
+            </FormControl>
+            <Button
+              variant='contained'
+              startIcon={<Add />}
+            >
+              New playlist
+            </Button>
+            <Button
+              variant='contained'
+              startIcon={<ThumbUp />}
+            >
+              Liked videos
+            </Button>
+          </div>
         </Route>
       </Switch>
 

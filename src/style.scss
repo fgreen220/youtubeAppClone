@@ -182,3 +182,32 @@ hr {
 #libHorizontalRule {
   margin-top:1rem;
 }
+
+#library-middle {
+  display:grid;
+  justify-content:start;
+  padding: 6px 0;
+  button {
+    justify-content:start;
+    background:inherit;
+    box-shadow:none;
+    width:100vw;
+  }
+}
+
+#watch-later{
+  margin:0;
+}
+
+#watched-videos {
+  margin:0;
+}
+
+.MuiButton-root {
+  #watch-later {
+    line-height:1;
+  }
+  #watched-videos {
+    line-height:1;
+  }
+}
