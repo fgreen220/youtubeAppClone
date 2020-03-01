@@ -5,11 +5,11 @@ const VideoScroll = (props:any) => {
 
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   windowResizer(setWindowWidth);
-  console.log(props.page);
+  console.log(props);
   return(
     <Fragment>
       {props.page === 'library' ? <p>Recent</p>:null}
-      <div className='videoScroll'>
+      <div className='videoScroll' style={{...props.style}}>
         {[...new Array(50)].map((item, index) => {
           let i = 0;
           return (

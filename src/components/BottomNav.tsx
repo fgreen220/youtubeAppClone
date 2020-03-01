@@ -60,8 +60,13 @@ export default function BottomNav(props: any) {
   const classes = useStyles();
   const btnClasses = buttonStyles();
   const [value, setValue] = useState(0);
+  const [selectedString, setSelectedString] = useState('Recently added');
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
+
+  const handleChange = (event:React.ChangeEvent<{value: unknown}>) => {
+    setSelectedString(event.target.value as string)
+  }
 
   return (
     <Router>
@@ -129,20 +134,20 @@ export default function BottomNav(props: any) {
             </Button>
           </div>
           <hr />
-          <div>
-            <p>Playlists</p>
+          <div id='library-bottom'>
+            <div id='playlist-filter'>
+            <p style={{display:'inline', justifyContent:'space-between'}}>Playlists</p>
             <FormControl>
-              <InputLabel id='select-label'>
-                Recently Added
-              </InputLabel>
               <Select
-              labelId='select-label'
               id='select-label'
+              value={selectedString}
+              onChange={handleChange}
               >
-                <MenuItem>A-Z</MenuItem>
-                <MenuItem>Recently Added</MenuItem>
+                <MenuItem value='A-Z'>A-Z</MenuItem>
+                <MenuItem value='Recently added'>Recently Added</MenuItem>
               </Select>
             </FormControl>
+            </div>
             <Button
               variant='contained'
               startIcon={<Add />}
@@ -155,6 +160,7 @@ export default function BottomNav(props: any) {
             >
               Liked videos
             </Button>
+            <VideoScroll style={{marginTop:'100px'}}/>
           </div>
         </Route>
       </Switch>

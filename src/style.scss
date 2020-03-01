@@ -211,3 +211,50 @@ hr {
     line-height:1;
   }
 }
+
+#example div .MuiFormControl-root {
+  min-width:9rem;
+  width:10vw;
+}
+.MuiFormControl-root .MuiInput-underline:before {
+  border-bottom:none;
+  transition:none;
+}
+.MuiFormControl-root .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom:none;
+  transition:none;
+}
+.MuiFormControl-root .MuiInput-underline:after {
+  border-bottom:none;
+  transition:none;
+}
+#playlist-filter {
+  display:grid;
+  justify-content:space-between;
+  padding: 0 1rem;
+  p {
+    grid-row:1;
+  }
+  .MuiFormControl-root {
+    grid-row:1;
+    align-self:center;
+  }
+}
+
+#library-bottom {
+  display:grid;
+  justify-content:start;
+  padding: 0 1rem;
+  grid-template-columns:1fr;
+  .MuiButton-root {
+    box-shadow:none;
+    background-color:transparent;
+    .MuiButton-label {
+      justify-content:start;
+    }
+  }
+}
+
+// #playlist-filter + .MuiButton-contained {
+//   display:block;
+// }
