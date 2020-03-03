@@ -255,6 +255,95 @@ hr {
   }
 }
 
-// #playlist-filter + .MuiButton-contained {
-//   display:block;
-// }
+.video-tiles {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-gap:10px 1px;
+  @for $i from 1 through 3 {
+    @if $i == 1 {   
+      .video-tiles-#{$i} {
+        grid-column:1/4;
+        height:40vh;
+        width:100%;
+        img {
+          height:32vh;
+          width:100%
+        }
+        .video-tile-info-container {
+          display:grid;
+          grid-template-columns:1fr 10fr 1fr;
+          grid-template-rows:8vh;
+          height:20%;
+          button {
+            padding:0;
+          }
+          #video-info {
+            margin:auto 0px;
+          }
+          #ellipsis-menu {
+            margin:auto 0px;
+            color:black;
+          }
+        }
+      }
+    }
+    @if $i == 2{    
+      .video-tiles-#{$i} {
+        height:40vh;
+        width:100%;
+        img {
+          height:32vh;
+          width:100%
+        }
+        .video-tile-info-container {
+          display:grid;
+          grid-template-columns:1fr 10fr 1fr;
+          grid-template-rows:8vh;
+          height:20%;
+          button {
+            padding:0;
+          }
+          #video-info {
+            margin:auto 0px;
+          }
+          #ellipsis-menu {
+            margin:auto 0px;
+            color:black;
+          }
+        }
+      }
+    } @else  {    
+      .video-tiles-#{$i} {
+        height:40vh;
+        width:100%;
+        img {
+          height:32vh;
+          width:100%
+        }
+        .video-tile-info-container {
+          display:grid;
+          grid-template-columns:1fr 10fr 1fr;
+          grid-template-rows:8vh;
+          height:20%;
+          button {
+            padding:0;
+          }
+          #video-info {
+            margin:auto 0px;
+          }
+          #ellipsis-menu {
+            margin:auto 0px;
+            color:black;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+#video-tile-account-circle {
+  justify-self:start;
+  color:black;
+  grid-row:1/3;
+}

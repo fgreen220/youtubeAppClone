@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment as div } from 'react';
 import { 
   BottomNavigation,
   BottomNavigationAction,
@@ -7,7 +7,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  IconButton
  } from '@material-ui/core';
 import {
   Home,
@@ -20,13 +21,15 @@ import {
   LocalOffer,
   WatchLater,
   ThumbUp,
-  Add
-
+  Add,
+  AccountCircle,
+  MoreVert
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import VideoScroll from './VideoScroll';
 import IconScroll from './IconScroll';
 import selectedButtonHandler from '../helpers/selectedButtonHandler';
+import windowResizer from '../helpers/windowResize';
 
 
 const useStyles = makeStyles({
@@ -54,13 +57,28 @@ const buttonStyles = makeStyles({
 }, { name: 'MuiBottomNavigationAction' });
 
 
-
+interface ResponseObject {
+  kind: string;
+  etag: string;
+  nextPageToken:string;
+  pageInfo: {};
+  items: {kind:string, etag:string, id:string, snippet:{thumbnails:{maxres:{url:string}}}, contentDetails:{},player:{embedHtml:string}}[];
+}
 
 export default function BottomNav(props: any) {
   const classes = useStyles();
   const btnClasses = buttonStyles();
   const [value, setValue] = useState(0);
   const [selectedString, setSelectedString] = useState('Recently added');
+  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  windowResizer(setWindowWidth);
+  const [videoData, setVideoData]  = useState<[ResponseObject]>([{
+    kind: '',
+    etag: '',
+    nextPageToken:'',
+    pageInfo: {},
+    items: [{kind:'', etag:'', id:'', snippet:{thumbnails:{maxres:{url:''}}}, contentDetails:{}, player:{embedHtml:''}}]
+  }]);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
 
@@ -68,11 +86,66 @@ export default function BottomNav(props: any) {
     setSelectedString(event.target.value as string)
   }
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/home-videos`, {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then((data:any) => {
+      data = JSON.parse(data);
+      console.log(data);
+      setVideoData(():any => [data])
+    })
+  }, [])
+  console.log(videoData);
+
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
-            <VideoScroll page='home'/>
+          <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
+            {videoData[0]['items'].map((item, index) => {
+              return (
+                windowWidth <= 550 ?
+              <div className='video-tiles-1' key={index}>
+                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
+                <div className='video-tile-info-container'>
+                  <IconButton>
+                    <AccountCircle id='video-tile-account-circle'/>
+                  </IconButton>
+                  <p id='video-info'>INFO CONTAINER</p>
+                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                </div>
+              </div>
+              : windowWidth <= 1100 && windowWidth > 550 ?
+              <div className='video-tiles-2' key={index}>
+                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
+                <div className='video-tile-info-container'>
+                  <IconButton>
+                    <AccountCircle id='video-tile-account-circle'/>
+                  </IconButton>
+                  <p id='video-info'>INFO CONTAINER</p>
+                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                </div>
+              </div>
+              : 
+              <div className='video-tiles-3' key={index}>
+                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
+                <div className='video-tile-info-container'>
+                  <IconButton>
+                    <AccountCircle id='video-tile-account-circle'/>
+                  </IconButton>
+                  <p id='video-info'>INFO CONTAINER</p>
+                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                </div>
+              </div>
+              )
+            })}
+          </div>
+          {/* <VideoScroll  page='home'/> */}
         </Route>
         <Route path='/trending'>
           <IconScroll page='trending'/>
@@ -92,7 +165,7 @@ export default function BottomNav(props: any) {
           <hr />
           <VideoScroll />
         </Route>
-        <Route path='/inbox'>
+        <Route path='/inbox'>,
           <div id='inbox-blurb'>
             <p>BELL ICON</p>
             <p>Your notifications live here</p>
