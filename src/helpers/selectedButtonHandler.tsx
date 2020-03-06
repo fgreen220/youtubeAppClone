@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 const selectedButtonHandler = (nodeListString:string, selectedClass:string) => {
   useEffect(() => {
-    const homeButtonClassRemover = () => {
+    const selectedButtonClassRemover = () => {
       document.querySelectorAll(nodeListString)
       .forEach(item => {
         if(item.className.includes(selectedClass)){
@@ -13,16 +13,22 @@ const selectedButtonHandler = (nodeListString:string, selectedClass:string) => {
     }
     document.querySelectorAll(nodeListString)
     .forEach(item => {
-      location.pathname.includes(`${item.textContent}`.toLowerCase()) ? (
-          homeButtonClassRemover(),
-          item.classList.add(selectedClass)
-      )
-      : null
+      if(item.textContent === 'Home') {
+        selectedButtonClassRemover(),
+        item.classList.add(selectedClass)
+      } else {
+          location.pathname.includes(`${item.textContent}`.toLowerCase()) ? (
+            selectedButtonClassRemover(),
+            item.classList.add(selectedClass)
+          )
+          : null
+      }
     });
     return () => {
       document.querySelector(selectedClass)?.classList.remove();
     }
-  });
+  }, [location.pathname]);
 }
+
 
 export default selectedButtonHandler;

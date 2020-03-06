@@ -1,36 +1,46 @@
-import React, { useState, useEffect, Fragment as div } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BottomNavigation,
   BottomNavigationAction,
-  makeStyles,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  IconButton
+  makeStyles
  } from '@material-ui/core';
 import {
   Home,
   Whatshot,
   Subscriptions,
   Mail,
-  VideoLibrary,
-  History,
-  Slideshow,
-  LocalOffer,
-  WatchLater,
-  ThumbUp,
-  Add,
-  AccountCircle,
-  MoreVert
+  VideoLibrary
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import VideoScroll from './VideoScroll';
-import IconScroll from './IconScroll';
 import selectedButtonHandler from '../helpers/selectedButtonHandler';
-import windowResizer from '../helpers/windowResize';
+import Trending from './Trending';
+import Inbox from './Inbox';
+import SubscriptionsView from './Subscriptions';
+import Library from './Library';
+import HomeView from './Home';
+import useVideoSearch from '../hooks/useVideoSearch';
 
+
+let categoryListObject:any = {
+  '1':'Film & Animation',//
+  '2':'Autos & Vehicles',//
+  '10':'Music',//
+  '15':'Pets & Animals',//
+  '17':'Sports',//
+  '20':'Gaming',//
+  '23':'Comedy',//
+  '24':'Entertainment',//
+  '26':'Howto & Style',//
+  '28':'Science & Technology'
+}
+
+interface ResponseObject {
+  kind: string;
+  etag: string;
+  nextPageToken:string;
+  pageInfo: {};
+  items: {kind:string, etag:string, id:string, snippet:{thumbnails:{maxres:{url:string}}}, contentDetails:{},player:{embedHtml:string}}[];
+}
 
 const useStyles = makeStyles({
   root: {
@@ -56,185 +66,72 @@ const buttonStyles = makeStyles({
   }
 }, { name: 'MuiBottomNavigationAction' });
 
-
-interface ResponseObject {
-  kind: string;
-  etag: string;
-  nextPageToken:string;
-  pageInfo: {};
-  items: {kind:string, etag:string, id:string, snippet:{thumbnails:{maxres:{url:string}}}, contentDetails:{},player:{embedHtml:string}}[];
-}
-
 export default function BottomNav(props: any) {
   const classes = useStyles();
   const btnClasses = buttonStyles();
   const [value, setValue] = useState(0);
-  const [selectedString, setSelectedString] = useState('Recently added');
-  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
-  windowResizer(setWindowWidth);
-  const [videoData, setVideoData]  = useState<[ResponseObject]>([{
-    kind: '',
-    etag: '',
-    nextPageToken:'',
-    pageInfo: {},
-    items: [{kind:'', etag:'', id:'', snippet:{thumbnails:{maxres:{url:''}}}, contentDetails:{}, player:{embedHtml:''}}]
-  }]);
+  const [selectedButton, setSelectedButton] = useState(location.pathname);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [pageTokens, setPageTokens] = useState([]);
+  const [nextPage, setNextPage] = useState('');
+  const [videoData, setVideoData]  = useState([]);
+  const [trendingPageTokens, setTrendingPageTokens] = useState({});
+  const [trendingNextPage, setTrendingNextPage] = useState({});
+  const [trendingVideoData, setTrendingVideoData]  = useState({});
+  const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
+  const [urlObject, setUrlObject] = useState({});
+
+  const {
+    loading,
+    error,
+    hasMore
+  } = useVideoSearch(
+    selectedButton==='/trending'?trendingNextPage:nextPage,
+    selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
+    selectedButton==='/trending'?trendingPageTokens:pageTokens,
+    selectedButton==='/trending'?setTrendingVideoData:setVideoData,
+    selectedButton,
+    trendingCategoryPage,
+    setUrlObject);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
-
-  const handleChange = (event:React.ChangeEvent<{value: unknown}>) => {
-    setSelectedString(event.target.value as string)
-  }
-
-  useEffect(() => {
-    fetch(`http://localhost:3000/home-videos`, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then((data:any) => {
-      data = JSON.parse(data);
-      console.log(data);
-      setVideoData(():any => [data])
-    })
-  }, [])
-  console.log(videoData);
 
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
-          <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
-            {videoData[0]['items'].map((item, index) => {
-              return (
-                windowWidth <= 550 ?
-              <div className='video-tiles-1' key={index}>
-                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
-                <div className='video-tile-info-container'>
-                  <IconButton>
-                    <AccountCircle id='video-tile-account-circle'/>
-                  </IconButton>
-                  <p id='video-info'>INFO CONTAINER</p>
-                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
-                </div>
-              </div>
-              : windowWidth <= 1100 && windowWidth > 550 ?
-              <div className='video-tiles-2' key={index}>
-                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
-                <div className='video-tile-info-container'>
-                  <IconButton>
-                    <AccountCircle id='video-tile-account-circle'/>
-                  </IconButton>
-                  <p id='video-info'>INFO CONTAINER</p>
-                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
-                </div>
-              </div>
-              : 
-              <div className='video-tiles-3' key={index}>
-                <img src={`${item['snippet']['thumbnails']['maxres']['url']}`} />
-                <div className='video-tile-info-container'>
-                  <IconButton>
-                    <AccountCircle id='video-tile-account-circle'/>
-                  </IconButton>
-                  <p id='video-info'>INFO CONTAINER</p>
-                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
-                </div>
-              </div>
-              )
-            })}
-          </div>
-          {/* <VideoScroll  page='home'/> */}
+          <HomeView 
+            videoData={videoData}
+            loading={loading}
+            error={error}
+            setNextPage={setNextPage}
+            pageTokens={pageTokens}
+            hasMore={hasMore}
+        />
         </Route>
         <Route path='/trending'>
-          <IconScroll page='trending'/>
-          <VideoScroll page='trending'/>
+          <Trending 
+            trendingVideoData={trendingVideoData}
+            loading={loading}
+            error={error}
+            setTrendingNextPage={setTrendingNextPage}
+            trendingPageTokens={trendingPageTokens}
+            hasMore={hasMore}
+            categoryListObject={categoryListObject}
+            setTrendingCategoryPage={setTrendingCategoryPage}
+            trendingCategoryPage={trendingCategoryPage}
+            trendingNextPage={trendingNextPage}
+            urlObject={urlObject}
+          />
         </Route>
         <Route path='/subscriptions'>
-          <IconScroll page='subscriptions'/>
-          <hr />
-          <div id='buttonScroll'>
-            <button>All</button>
-            <button>Today</button>
-            <button>Continue watching</button>
-            <button>Unwatched</button>
-            <button>Live</button>
-            <button>Posts</button>
-          </div>
-          <hr />
-          <VideoScroll />
+            <SubscriptionsView isLoggedIn={isLoggedIn}/>
         </Route>
-        <Route path='/inbox'>,
-          <div id='inbox-blurb'>
-            <p>BELL ICON</p>
-            <p>Your notifications live here</p>
-            <p>Don't miss the latest videos and more from your favorite channels.</p>
-            <button>TURN ON NOTIFICATIONS</button>
-          </div>
+        <Route path='/inbox'>
+            <Inbox isLoggedIn={isLoggedIn}/>
         </Route>
         <Route path='/library'>
-          <VideoScroll page='library' />
-          <hr />
-          <div id='library-middle'>
-            <Button
-              variant='contained'
-              startIcon={<History />}
-            >
-              History
-            </Button>
-            <Button
-              variant='contained'
-              startIcon={<Slideshow />}
-            >
-              Your Videos
-            </Button>
-            <Button
-              variant='contained'
-              startIcon={<LocalOffer />}
-            >
-              Purchases
-            </Button>
-            <Button
-              variant='contained'
-              startIcon={<WatchLater />}
-              id='watch-later-button'
-            >
-              <div>
-              <p id='watch-later'>Watch Later</p>
-              <p id='watched-videos'>0 watched videos</p>
-              </div>
-            </Button>
-          </div>
-          <hr />
-          <div id='library-bottom'>
-            <div id='playlist-filter'>
-            <p style={{display:'inline', justifyContent:'space-between'}}>Playlists</p>
-            <FormControl>
-              <Select
-              id='select-label'
-              value={selectedString}
-              onChange={handleChange}
-              >
-                <MenuItem value='A-Z'>A-Z</MenuItem>
-                <MenuItem value='Recently added'>Recently Added</MenuItem>
-              </Select>
-            </FormControl>
-            </div>
-            <Button
-              variant='contained'
-              startIcon={<Add />}
-            >
-              New playlist
-            </Button>
-            <Button
-              variant='contained'
-              startIcon={<ThumbUp />}
-            >
-              Liked videos
-            </Button>
-            <VideoScroll style={{marginTop:'100px'}}/>
-          </div>
+          <Library isLoggedIn={isLoggedIn}/>
         </Route>
       </Switch>
 
@@ -242,10 +139,12 @@ export default function BottomNav(props: any) {
         id='bottomNav'
         value={value}
         onChange={(event, newValue) => {
+          console.log(newValue);
           setValue(newValue);
         }}
         showLabels
         className={classes.root}
+        onClick={() => setSelectedButton(location.pathname)}
       >
         <BottomNavigationAction component={Link} to='/' classes={{root: btnClasses.root, selected: btnClasses.selected, label: btnClasses.label}} label='Home' icon={<Home />} />
         <BottomNavigationAction component={Link} to='/trending' classes={{root: btnClasses.root, selected: btnClasses.selected, label: btnClasses.label}} label='Trending' icon={<Whatshot />} />

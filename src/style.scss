@@ -66,41 +66,75 @@ body {
   align-self:end;
 }
 
-#icon-scroll-small {
+#icon-scroll {
   white-space:nowrap;
   scrollbar-width:none;
   overflow:scroll;
-  div {
-    background-color: gray;
-    border-radius:50%;
-    height:15vh;
-    width:15vh;
+  padding:0.5vh 0 0 0;
+  .large-icon-scroll {
+    height:100%;
+    width:10vw;
+    margin:1rem 0.1rem 0 0.1rem;
+    .MuiIconButton-root {
+      padding:0px;
+      span .icon-large {
+        height:9vw;
+        width:9vw;
+        max-height:5rem;
+        max-width:5rem;
+        color:black;
+        .MuiAvatar-fallback {
+          width:100%;
+          height:100%;
+        }
+      }
+    }
+  }
+  .small-icon-scroll {
+    width:15vw;
+    span .icon-small {
+      height:9vw;
+      width:9vw;
+      color:black;
+      .MuiAvatar-fallback {
+        width:100%;
+        height:100%;
+      }
+    }
+  }
+  .account-scroll-icon {
     display:inline-grid;
-    margin: 3px;
+    margin: 6px;
+  }
+  p {
+    text-align:center;
+    padding:0 0.5rem;
+    margin:0.5rem 0;
+    white-space:pre-wrap;
   }
 }
 
-#icon-scroll-small::-webkit-scrollbar {
+#icon-scroll::-webkit-scrollbar {
   display:none;
 }
 
-#icon-scroll-large::-webkit-scrollbar {
-  display:none;
-}
+// #icon-scroll-large::-webkit-scrollbar {
+//   display:none;
+// }
 
-#icon-scroll-large {
-  white-space:nowrap;
-  scrollbar-width:none;
-  overflow:scroll;
-  div {
-    background-color: gray;
-    border-radius:50%;
-    height:20vh;
-    width:20vh;
-    display:inline-grid;
-    margin: 3px;
-  }
-}
+// #icon-scroll-large {
+//   white-space:nowrap;
+//   scrollbar-width:none;
+//   overflow:scroll;
+//   height:30vh;
+//   .account-circle-icon {
+//     display:inline-grid;
+//     margin: 6px;
+//   }
+//   p {
+//     text-align:center;
+//   }
+// }
 
 #buttonScroll::-webkit-scrollbar {
   display:none;
@@ -120,12 +154,16 @@ hr {
   border-width: 0.11px;
 }
 
-#inbox-blurb {
-  height:100vh;
+#signed-out-blurb {
+  height:70vh;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  svg {
+    width:20vw;
+    height:30vh;
+  }
   p {
     text-align:center;
 
@@ -186,12 +224,13 @@ hr {
 #library-middle {
   display:grid;
   justify-content:start;
-  padding: 6px 0;
+  grid-template-columns:1fr;
   button {
-    justify-content:start;
-    background:inherit;
     box-shadow:none;
-    width:100vw;
+    background-color:transparent;
+    .MuiButton-label {
+      justify-content:start;
+    }
   }
 }
 
@@ -244,7 +283,6 @@ hr {
 #library-bottom {
   display:grid;
   justify-content:start;
-  padding: 0 1rem;
   grid-template-columns:1fr;
   .MuiButton-root {
     box-shadow:none;
@@ -258,7 +296,7 @@ hr {
 .video-tiles {
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  grid-gap:10px 1px;
+  grid-gap:2rem 0.75rem;
   @for $i from 1 through 3 {
     @if $i == 1 {   
       .video-tiles-#{$i} {
