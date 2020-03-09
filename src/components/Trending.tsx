@@ -53,7 +53,7 @@ const Trending = (props:any) => {
       {displayedArray[props.trendingCategoryPage]?.map((item:any, index:number) => {
         index === 0 ? console.log('DA: ',displayedArray,
           'VD: ',props.trendingVideoData[props.trendingCategoryPage],
-          'UO: ',props.urlObject[props.trendingCategoryPage]):null;
+          'UO: ',props.urlTrendingObject[props.trendingCategoryPage]):null;
         let sizeClass:string;
         switch(windowWidth) {
           case(windowWidth<=550?windowWidth:null):
@@ -67,37 +67,33 @@ const Trending = (props:any) => {
         }
         return (
           displayedArray[props.trendingCategoryPage]?.length !== index+1 ?
-          <a className={sizeClass} key={`withoutLastElementRef-${index}`}
-          href={props.urlObject[props.trendingCategoryPage]?`${props.urlObject[props.trendingCategoryPage][index]}`
-                :`//youtube.com`}>
-              <div key={index}>
+              <div className={`${sizeClass} modal-link`}
+              key={`withoutLastElementRef-${index}`}
+              onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
                 {/* ['snippet']['thumbnails']['maxres']['url'] */}
                 <img src={`${item}`} />
                 <div className='video-tile-info-container'>
                   <IconButton>
-                    <AccountCircle id='video-tile-account-circle'/>
+                    <AccountCircle className='video-tile-account-circle'/>
                   </IconButton>
                   <p id='video-info'>INFO CONTAINER</p>
-                  <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                  <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
                 </div>
               </div>
-            </a>
           :
-          <a className={sizeClass} key={`withLastElementRef-${index}`} href={
-            props.urlObject[props.trendingCategoryPage]?`${props.urlObject[props.trendingCategoryPage][index]}`
-            : '//youtube.com'}>
-            <div ref={lastVideoElementRef} key={index}>
+            <div className={`${sizeClass} modal-link`}
+            key={`withLastElementRef-${index}`} ref={lastVideoElementRef}
+            onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img src={`${item}`} />
               <div className='video-tile-info-container'>
                 <IconButton>
-                  <AccountCircle id='video-tile-account-circle'/>
+                  <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
                 <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
               </div>
             </div>
-          </a>
         )
       })}
       <div>{props.loading && 'Loading...'}</div>

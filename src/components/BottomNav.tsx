@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { 
   BottomNavigation,
   BottomNavigationAction,
@@ -19,6 +19,8 @@ import SubscriptionsView from './Subscriptions';
 import Library from './Library';
 import HomeView from './Home';
 import useVideoSearch from '../hooks/useVideoSearch';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import windowResizer from '../helpers/windowResize';
 
 
 let categoryListObject:any = {
@@ -79,7 +81,10 @@ export default function BottomNav(props: any) {
   const [trendingNextPage, setTrendingNextPage] = useState({});
   const [trendingVideoData, setTrendingVideoData]  = useState({});
   const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
-  const [urlObject, setUrlObject] = useState({});
+  const [urlTrendingObject, setUrlTrendingObject] = useState({});
+  const [urlObject, setUrlObject] = useState([]);
+  const [embedObject, setEmbedObject] = useState({});
+  const [currentVideoUrl, setCurrentVideoUrl] = useState('');
 
   const {
     loading,
@@ -92,24 +97,120 @@ export default function BottomNav(props: any) {
     selectedButton==='/trending'?setTrendingVideoData:setVideoData,
     selectedButton,
     trendingCategoryPage,
-    setUrlObject);
+    selectedButton==='/trending'?setUrlTrendingObject:setUrlObject,
+    setEmbedObject);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
+
+  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  windowResizer(setWindowWidth);
+
+  useEffect(() => {
+    const modalVideoLink = document.querySelectorAll('.modal-link');
+    const modalBg = document.querySelector('.modal-bg');
+    const modalClose = document.querySelector('.modal-close');
+    const hideEllipsis = document.querySelectorAll('.video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu');
+    const hideAccountCircle = document.querySelectorAll('.video-tile-account-circle');
+    const topAppBar = document.querySelector('.top-app-bar');
+    const bottomNavBar = document.querySelector('.bottom-nav-bar');
+    const hideIconSmall = document.querySelectorAll('icon-small-toggle');
+    const hideIconLarge = document.querySelectorAll('.icon-large-toggle');
+
+    const addBg = () => {
+      modalBg?.classList.add('bg-active');
+      modalBg?disableBodyScroll(modalBg):null;
+      topAppBar?.classList.add('hidden-app-bar');
+      bottomNavBar?.classList.add('hidden-nav-bar');
+      Array(hideIconSmall)[0].forEach(icon => {
+        icon.classList.replace('icon-small', 'hidden-icon-small');
+      }
+      )
+      Array(hideIconLarge)[0].forEach(icon => {
+        icon.classList.replace('icon-large', 'hidden-icon-large');
+      }
+      )
+      Array(hideEllipsis)[0].forEach(node => {
+        node.classList.replace('ellipsis-menu', 'hidden-ellipsis');
+      }
+      )
+      Array(hideAccountCircle)[0].forEach(node => {
+        node.classList.add('hidden-account-circle');
+      }
+      )
+    }
+    const removeBg = () => {
+      modalBg?.classList.remove('bg-active')
+      modalBg?enableBodyScroll(modalBg):null;
+      topAppBar?.classList.remove('hidden-app-bar');
+      bottomNavBar?.classList.remove('hidden-nav-bar');
+      Array(hideIconSmall)[0].forEach(icon => {
+        icon.classList.replace('hidden-icon-small','icon-small');
+      }
+      )
+      Array(hideIconLarge)[0].forEach(icon => {
+        icon.classList.replace('hidden-icon-large','icon-large');
+      }
+      )
+      Array(hideEllipsis)[0].forEach(node => {
+        node.classList.replace('hidden-ellipsis','ellipsis-menu');
+      }
+      )
+      Array(hideAccountCircle)[0].forEach(node => {
+        node.classList.remove('hidden-account-circle');
+      }
+      )
+    }
+    Array(modalVideoLink)[0].forEach(video => {
+      video.addEventListener('click', addBg);
+    })
+    modalClose?.addEventListener('click', removeBg)
+
+    return(() => {
+      Array(modalVideoLink)[0].forEach(video => {
+        video.removeEventListener('click', addBg);
+      })
+      modalClose?.removeEventListener('click', removeBg);
+      modalBg ? modalBg.scrollTop = 0:null;
+    })
+  })
+
+  const passEmbedUrl = (urlString:string) => {
+    setCurrentVideoUrl(() => urlString);
+  }
 
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
-          <HomeView 
-            videoData={videoData}
-            loading={loading}
-            error={error}
-            setNextPage={setNextPage}
-            pageTokens={pageTokens}
-            hasMore={hasMore}
-        />
+          <div className='modal-bg' >
+            <div className='modal'>
+              <div className={'modal-video-wrapper modal-wrapper'}>
+                <iframe width="480px" height="270px" src={currentVideoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              </div>
+              <span className='modal-close'>X</span>
+            </div>
+          </div>
+            <HomeView 
+              videoData={videoData}
+              loading={loading}
+              error={error}
+              setNextPage={setNextPage}
+              pageTokens={pageTokens}
+              hasMore={hasMore}
+              embedObject={embedObject}
+              urlObject={urlObject}
+              passEmbedUrl={passEmbedUrl}
+          />
         </Route>
         <Route path='/trending'>
+          <div className='modal-bg' >
+            <div className='modal'>
+              <div className={'modal-video-wrapper modal-wrapper'}>
+                <iframe width="480px" height="270px" src={currentVideoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              </div>
+              <span className='modal-close'>X</span>
+            </div>
+          </div>
           <Trending 
             trendingVideoData={trendingVideoData}
             loading={loading}
@@ -121,7 +222,8 @@ export default function BottomNav(props: any) {
             setTrendingCategoryPage={setTrendingCategoryPage}
             trendingCategoryPage={trendingCategoryPage}
             trendingNextPage={trendingNextPage}
-            urlObject={urlObject}
+            urlTrendingObject={urlTrendingObject}
+            passEmbedUrl={passEmbedUrl}
           />
         </Route>
         <Route path='/subscriptions'>
@@ -143,7 +245,7 @@ export default function BottomNav(props: any) {
           setValue(newValue);
         }}
         showLabels
-        className={classes.root}
+        className={`${classes.root} bottom-nav-bar`}
         onClick={() => setSelectedButton(location.pathname)}
       >
         <BottomNavigationAction component={Link} to='/' classes={{root: btnClasses.root, selected: btnClasses.selected, label: btnClasses.label}} label='Home' icon={<Home />} />

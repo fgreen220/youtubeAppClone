@@ -15,7 +15,8 @@ const useVideoSearch = (
   stateFunction:any,
   pageName:string,
   trendingCategoryPage:string,
-  urlObjectSetter:any
+  urlObjectSetter:any,
+  embedObjectSetter:any
   ) => {
 
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,20 @@ const useVideoSearch = (
             :'../assets/no_thumbnail.jpg'
             );
         })])]
-        })
+        });
+        urlObjectSetter((prevUrls:any) => {
+          return (
+            [...prevUrls, ...data.items.map((playerItem:any) => {
+              return(playerItem['player'] ?
+              playerItem['player']['embedHtml'].match(
+                /\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\/embed\/[-a-zA-Z0-9@:%._\+~#=]{2,256}/
+              )[0]
+              :'//www.youtube.com'
+              );
+          })
+            ]
+          );
+        });
         setTokens(() => [...pgTokens, data.nextPageToken])
         setHasMore(data.nextPageToken);
         setLoading(false);

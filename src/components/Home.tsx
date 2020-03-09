@@ -35,27 +35,27 @@ const HomeView = (props:any) => {
         }
         return (
           props.videoData.length !== index+1 ?
-            <div className={sizeClass} key={index}>
+            <div className={`${sizeClass} modal-link`} key={index} onClick={() => props.passEmbedUrl(props.urlObject[index])}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img src={`${item}`} />
               <div className='video-tile-info-container'>
                 <IconButton>
-                  <AccountCircle id='video-tile-account-circle'/>
+                  <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
                 <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
               </div>
             </div>
           :
-            <div className={sizeClass} ref={lastVideoElementRef} key={index}>
+            <div className={`${sizeClass} modal-link`} ref={lastVideoElementRef} key={index} onClick={() => props.passEmbedUrl(props.urlObject[index])}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img src={`${item}`} />
               <div className='video-tile-info-container'>
                 <IconButton>
-                  <AccountCircle id='video-tile-account-circle'/>
+                  <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
                 <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert id='ellipsis-menu'/></IconButton>
+                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
               </div>
             </div>
         )

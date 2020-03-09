@@ -36,7 +36,7 @@ const appBarStyles = makeStyles({
   root: {
     backgroundColor:'#212121'
   }
-})
+});
 
 const HideOnScroll = (props: any) => {
   const { children, window } = props;
@@ -54,7 +54,7 @@ const HeaderNav = (props: any):any => {
   const appBarClasses = appBarStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} top-app-bar`}>
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar classes={{root: appBarClasses.root}}>

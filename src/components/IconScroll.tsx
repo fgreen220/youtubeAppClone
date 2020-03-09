@@ -62,7 +62,7 @@ const IconScroll = (props:any) => {
     <div id='icon-scroll'>
       {categoryArray?.map((item:string, index:number) => {
         let CurrentIcon = iconArray[index];
-    return <div key={`small-${index}`} className='small-icon-scroll' style={{display:'inline-grid', gridTemplateColumns:'1fr'}}><IconButton id={Object.keys(props.categoryListObject)[index]} onClick={(e:any) => !props.loading?props.trendingCategoryHandler(e):null}><CurrentIcon className='icon-small'></CurrentIcon></IconButton><p>{item}</p></div> 
+    return <div key={`small-${index}`} className='small-icon-scroll' style={{display:'inline-grid', gridTemplateColumns:'1fr'}}><IconButton id={Object.keys(props.categoryListObject)[index]} onClick={(e:any) => !props.loading?props.trendingCategoryHandler(e):null}><CurrentIcon className='icon-small icon-small-toggle'></CurrentIcon></IconButton><p>{item}</p></div> 
     })}
     </div>
     :
@@ -70,7 +70,7 @@ const IconScroll = (props:any) => {
     <div id='icon-scroll'>
       {categoryArray?.map((item:string, index:number) => {
         let CurrentIcon = iconArray[index];
-      return <div key={`large-${index}`} className='large-icon-scroll' style={{display:'inline-grid', gridTemplateColumns:'1fr'}}><IconButton id={Object.keys(props.categoryListObject)[index]} onClick={(e:any) => !props.loading?props.trendingCategoryHandler(e):null}><CurrentIcon className='icon-large'></CurrentIcon></IconButton><p>{item}</p></div>
+      return <div key={`large-${index}`} className='large-icon-scroll' style={{display:'inline-grid', gridTemplateColumns:'1fr'}}><IconButton id={Object.keys(props.categoryListObject)[index]} onClick={(e:any) => !props.loading?props.trendingCategoryHandler(e):null}><CurrentIcon className='icon-large icon-large-toggle'></CurrentIcon></IconButton><p>{item}</p></div>
       })}
     </div>
     : props.page === 'subscriptions' && windowWidth < 700 ?
