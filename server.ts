@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }), cors())
 
 const videoBase = 'https://www.googleapis.com/youtube/v3/videos';
-const videoPart = `snippet,contentDetails,player`;
+const videoPart = `snippet,contentDetails,player,statistics`;
 const videoChart = `mostPopular`;
 const regionCode = `US`;
 
@@ -71,6 +71,27 @@ app.get('/trending', (request:any, response:any) => {
           })
         })
       }
+  }).on('error', (err:any) => {
+    console.log(`Error": ${err.message}`);
+  })
+})
+
+const commentParts = 'snippet,replies';
+
+app.get('/comments', (request:any, response:any) => {
+  const { videoid } = request.headers;
+  console.log(videoid);
+  https.get(`https://www.googleapis.com/youtube/v3/commentThreads?part=${commentParts}&videoId=${videoid}&order=relevance&key=${config.YT_KEY}`, (resp:any) => {
+    let data = '';
+
+    resp.on('data', (chunk:any) => {
+      data+= chunk;
+    });
+
+    resp.on('end', () => {
+      response.setHeader('Content-Type', 'application/json');
+      response.send(JSON.stringify(data));
+    })
   }).on('error', (err:any) => {
     console.log(`Error": ${err.message}`);
   })

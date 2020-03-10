@@ -16,7 +16,18 @@ const useVideoSearch = (
   pageName:string,
   trendingCategoryPage:string,
   urlObjectSetter:any,
-  embedObjectSetter:any
+  videoTitleSetter:any,
+  videoStatSetter: React.Dispatch<React.SetStateAction<{
+    [string: string]: {
+        viewCount: string;
+        likeCount: string;
+        dislikeCount: string;
+        favoriteCount: string;
+        commentCount: string;
+    };
+} | undefined>>,
+  videoDescSetter: React.Dispatch<React.SetStateAction<string[]>>,
+  videoIdSetter: React.Dispatch<React.SetStateAction<string[]>>
   ) => {
 
   const [loading, setLoading] = useState(true);
@@ -72,6 +83,28 @@ const useVideoSearch = (
             ]
           );
         });
+        videoTitleSetter((prevTitles:any) => {
+          return [...prevTitles, ...data.items.map((video:any) => video.snippet.title?video.snippet.title:'Youtube Video')]
+        })
+        videoStatSetter((prevStat:{
+          [string: string]: {
+              viewCount: string;
+              likeCount: string;
+              dislikeCount: string;
+              favoriteCount: string;
+              commentCount: string;
+          };
+      } | undefined) => {
+          return {...prevStat, ...data.items.map((item:any) => {
+            return {...item.statistics};
+          })}
+        });
+        videoDescSetter((prevDesc:string[]) => {
+          return [...prevDesc, ...data.items.map((item:{[string:string]:{[string:string]:string}}) => item.snippet.description)]
+        });
+        videoIdSetter((prevIds:string[]) => {
+          return [...prevIds, ...data.items.map((item:{[string:string]:string}) => item.id)]
+        })
         setTokens(() => [...pgTokens, data.nextPageToken])
         setHasMore(data.nextPageToken);
         setLoading(false);

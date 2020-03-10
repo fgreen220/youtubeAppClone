@@ -311,30 +311,47 @@ hr {
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   grid-gap:1rem 0.75rem;
+  margin:1rem 0 0 0;
   @for $i from 1 through 3 {
     @if $i == 1 {   
       .video-tiles-#{$i} {
         grid-column:1/4;
-        // height:40vh;
-        height:calc(100vw/1.7);
         max-height:40vh;
+        min-height:16rem;
         width:100%;
         img {
-          height:calc((100vw/1.7)*0.8);
-          max-height:32vh;
-          width:100%
+          max-height:90%;
+          width:100%;
+          min-height:calc((100vw/1.7)*0.7);
         }
         .video-tile-info-container {
           display:grid;
           grid-template-columns:1fr 10fr 1fr;
-          grid-template-rows:8vh;
+          grid-template-rows:1fr;
           // height:20%;
-          height:calc((100vw/1.7)*0.2);
+          min-height:3rem;
+          max-height:10%;
           button {
             padding:0;
+            height:50%;
+            span {
+              position:absolute;
+              top:0;
+            }
           }
-          #video-info {
-            margin:auto 0px;
+          .info-text-wrapper {
+            #video-info {
+              margin:0;
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:start;
+            }
+            .extra-info {
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:end;
+              margin:0;
+            }
           }
           .ellipsis-menu {
             margin:auto 0px;
@@ -347,26 +364,44 @@ hr {
     }
     @if $i == 2{    
       .video-tiles-#{$i} {
-        height:calc(100vw/1.7);
         max-height:40vh;
         width:100%;
+        min-height:19rem;
         img {
           // height:32vh;
-          height:calc((100vw/1.7)*0.8);
-          max-height:32vh;
-          width:100%
+          // height:calc((100vw/1.7));
+          max-height:90%;
+          width:100%;
+          min-height:15rem;
         }
         .video-tile-info-container {
           display:grid;
           grid-template-columns:1fr 10fr 1fr;
-          grid-template-rows:8vh;
+          grid-template-rows:1fr;
           // height:20%;
-          height:calc((100vw/1.7)*0.2);
+          min-height:3rem;
+          max-height:10%;
           button {
             padding:0;
+            height:50%;
+            span {
+              position:absolute;
+              top:0;
+            }
           }
-          #video-info {
-            margin:auto 0px;
+          .info-text-wrapper {
+            #video-info {
+              margin:0;
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:start;
+            }
+            .extra-info {
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:end;
+              margin:0;
+            }
           }
           .ellipsis-menu {
             margin:auto 0px;
@@ -376,28 +411,46 @@ hr {
           }
         }
       }
-    } @else  {    
+    } @if $i == 3 {    
       .video-tiles-#{$i} {
-        height:calc(100vw/1.7);
         max-height:40vh;
         width:100%;
+        min-height:19rem;
         img {
           // height:32vh;
-          height:calc((100vw/1.7)*0.8);
-          max-height:32vh;
-          width:100%
+          height:calc((100vw/1.7));
+          max-height:90%;
+          width:100%;
+          min-height:15rem;
         }
         .video-tile-info-container {
           display:grid;
           grid-template-columns:1fr 10fr 1fr;
-          grid-template-rows:8vh;
+          grid-template-rows:1fr;
           // height:20%;
-          height:calc((100vw/1.7)*0.2);
+          min-height:3rem;
+          max-height:10%;
           button {
             padding:0;
+            height:50%;
+            span {
+              position:absolute;
+              top:0;
+            }
           }
-          #video-info {
-            margin:auto 0px;
+          .info-text-wrapper {
+            #video-info {
+              margin:0;
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:start;
+            }
+            .extra-info {
+              grid-row:1/2;
+              grid-column:2/3;
+              align-self:end;
+              margin:0;
+            }
           }
           .ellipsis-menu {
             margin:auto 0px;
@@ -435,7 +488,7 @@ hr {
   height:100%;
   top:100%;
   left:0;
-  background-color:rgba(0,0,0,0.5);
+  background-color:white;
   display:flex;
   justify-content:center;
   align-items:space-around;
@@ -455,8 +508,8 @@ hr {
   position:relative;
   background-color:white;
   width:100vw;
-  min-height:100vh;
-  height:calc(100vw/1.6);
+  min-height:100%;
+  height:auto;
   display:flex;
   justify-content:space-around;
   align-items:center;
@@ -466,6 +519,9 @@ hr {
     width:100%;
     position:relative;
     top:0;
+    #comments-data {
+      padding:0 1.5rem;
+    }
   }
   .modal-video-wrapper{
     iframe {
@@ -503,4 +559,81 @@ hr {
 
 .hidden-nav-bar {
   visibility:hidden;
+}
+
+#accordion-expansion-icon {
+  color:black;
+}
+
+.modal-wrapper .MuiPaper-elevation1 {
+  box-shadow:none;
+}
+
+.MuiExpansionPanelSummary-root {
+  .MuiExpansionPanelSummary-content {
+    flex-direction:column;
+    p {
+      margin:0;
+    }
+    .MuiButton-contained {
+      box-shadow:none;
+      background-color:transparent;
+      &:hover {
+        box-shadow:none;
+        background-color:transparent;
+      }
+    }
+  }
+  .expansion-icon-wrapper {
+    position:relative;
+    .MuiExpansionPanelSummary-expandIcon {
+      position:absolute;
+      top:0;
+    }
+  }
+}
+
+.expansion-summary-rule {
+  border: 0.05em solid rgba(0, 0, 0, 0.06);
+}
+
+.MuiExpansionPanelDetails-root p {
+  white-space:pre-wrap;
+}
+
+#comment-controls {
+  display:flex;
+  justify-content:space-between;
+  padding: 0 1.5rem;
+  h1 {
+    display:inline;
+  }
+  .MuiIconButton-root{
+    padding:0;
+  }
+  .MuiSvgIcon-root {
+    color:black; 
+  }
+}
+
+#simple-popper {
+  .MuiPaper-root {
+    display:grid
+  }
+
+}
+
+#comment-add {
+  display:inline-grid;
+  display:flex;
+  padding:0 0 0 1.5rem;
+  .MuiTextField-root {
+    flex:1 1 auto;
+  }
+  .MuiInput-root {
+    margin:0 0 0 1rem;
+    .MuiInput-input {
+      min-width:20rem;
+    }
+  }
 }

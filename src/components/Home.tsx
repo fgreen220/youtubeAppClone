@@ -18,7 +18,6 @@ const HomeView = (props:any) => {
     })
     if(node) observer.current.observe(node)
   }, [props.loading, props.hasMore]);
-  console.log(props)
   return (
     <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
       {props.videoData.map((item:any, index:number) => {
@@ -42,8 +41,11 @@ const HomeView = (props:any) => {
                 <IconButton>
                   <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
-                <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
+                <div className='info-text-wrapper'>
+                  <p id='video-info'>{props.videoTitle[index]}</p>
+                  <p className='extra-info' style={{fontSize:'0.5rem'}}>{props.videoStatistics? props.videoStatistics[index]?.viewCount:null}</p>
+                </div>
+                <IconButton><MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/></IconButton>
               </div>
             </div>
           :
@@ -54,8 +56,11 @@ const HomeView = (props:any) => {
                 <IconButton>
                   <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
-                <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
+                <div className='info-text-wrapper'>
+                  <p id='video-info'>{props.videoTitle[index]}</p>
+                  <p className='extra-info' style={{fontSize:'0.5rem'}}>{props.videoStatistics? props.videoStatistics[index]?.viewCount:null}</p>
+                </div>
+                <IconButton><MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/></IconButton>
               </div>
             </div>
         )

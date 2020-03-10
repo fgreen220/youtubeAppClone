@@ -1,15 +1,34 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   BottomNavigation,
   BottomNavigationAction,
-  makeStyles
+  makeStyles,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Button,
+  Divider,
+  IconButton,
+  Popper,
+  Paper,
+  Avatar,
+  TextField,
+  Grid
  } from '@material-ui/core';
 import {
   Home,
   Whatshot,
   Subscriptions,
   Mail,
-  VideoLibrary
+  VideoLibrary,
+  ExpandMore,
+  ThumbUp,
+  ThumbDown,
+  Share,
+  GetApp,
+  LibraryAdd,
+  Tune,
+  AccountCircle
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import selectedButtonHandler from '../helpers/selectedButtonHandler';
@@ -82,9 +101,18 @@ export default function BottomNav(props: any) {
   const [trendingVideoData, setTrendingVideoData]  = useState({});
   const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
   const [urlTrendingObject, setUrlTrendingObject] = useState({});
-  const [urlObject, setUrlObject] = useState([]);
-  const [embedObject, setEmbedObject] = useState({});
+  const [urlObject, setUrlObject] = useState<string[]>([]);
   const [currentVideoUrl, setCurrentVideoUrl] = useState('');
+  const [videoTitle, setVideoTitle] = useState([]);
+  const [videoStatistics, setVideoStatistics] = useState<{[string:string]:{
+    viewCount:string,
+    likeCount:string,
+    dislikeCount:string,
+    favoriteCount:string,
+    commentCount:string
+  }}>();
+  const [videoDescription, setVideoDescription] = useState<string[]>([]);
+  const [videoId, setVideoId] = useState<string[]>([]);
 
   const {
     loading,
@@ -98,25 +126,63 @@ export default function BottomNav(props: any) {
     selectedButton,
     trendingCategoryPage,
     selectedButton==='/trending'?setUrlTrendingObject:setUrlObject,
-    setEmbedObject);
+    setVideoTitle,
+    setVideoStatistics,
+    setVideoDescription,
+    setVideoId);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
 
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   windowResizer(setWindowWidth);
 
+  const modalElement = document.querySelector('.modal');
+
+  const [modalScrollHeight, setModalScrollHeight] = useState<number>(document.body.scrollHeight)
+
+  const [commentData, setCommentData] = useState<{}[]>([]);
+
+  useEffect(() => {
+    console.log(videoId[urlObject.indexOf(currentVideoUrl)]);
+    currentVideoUrl.length >= 1 &&
+    videoId[urlObject.indexOf(currentVideoUrl)]?
+    fetch('http://localhost:3000/comments', {
+      method:'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'videoid': `${videoId[urlObject.indexOf(currentVideoUrl)]}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      data = JSON.parse(data);
+      console.log(data);
+      setCommentData((prevComments:[{}]) => [...prevComments, ...data.items.map((comment:{[string:string]:{}}) => {
+        return comment.snippet;
+      })])
+    })
+    :null
+  }, [currentVideoUrl])
+
+  const [modalHeight, setModalHeight] = useState<number|string>('100vh');
+  const [panelExpanded, setPanelExpanded] = useState<boolean>(false);
+
   useEffect(() => {
     const modalVideoLink = document.querySelectorAll('.modal-link');
-    const modalBg = document.querySelector('.modal-bg');
     const modalClose = document.querySelector('.modal-close');
-    const hideEllipsis = document.querySelectorAll('.video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu');
+    const modalBg = document.querySelector('.modal-bg');
+    const hideEllipsis = document.querySelectorAll('.video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu-placeholder');
     const hideAccountCircle = document.querySelectorAll('.video-tile-account-circle');
     const topAppBar = document.querySelector('.top-app-bar');
     const bottomNavBar = document.querySelector('.bottom-nav-bar');
     const hideIconSmall = document.querySelectorAll('icon-small-toggle');
     const hideIconLarge = document.querySelectorAll('.icon-large-toggle');
+    const bgActive = document.querySelector('.bg-active');
+    console.log(bgActive,'.............................');
 
     const addBg = () => {
+
+
       modalBg?.classList.add('bg-active');
       modalBg?disableBodyScroll(modalBg):null;
       topAppBar?.classList.add('hidden-app-bar');
@@ -170,22 +236,107 @@ export default function BottomNav(props: any) {
         video.removeEventListener('click', addBg);
       })
       modalClose?.removeEventListener('click', removeBg);
-      modalBg ? modalBg.scrollTop = 0:null;
+      modalBg? modalBg.scrollTop = 0:null;
+      console.log('scrolled to top');
     })
-  })
+  }, [commentData])
 
   const passEmbedUrl = (urlString:string) => {
     setCurrentVideoUrl(() => urlString);
   }
+
+  const [popperAnchorEl, setPopperAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleClick = (event:React.MouseEvent<HTMLElement>) => {
+    setPopperAnchorEl(popperAnchorEl ? null : event.currentTarget);
+  }
+
+  const popperOpen = Boolean(popperAnchorEl);
+  const popperId = popperOpen ? 'simple-popper' : undefined;
 
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
           <div className='modal-bg' >
-            <div className='modal'>
+            <div style={{minHeight:'auto'}} className='modal'>
               <div className={'modal-video-wrapper modal-wrapper'}>
                 <iframe width="480px" height="270px" src={currentVideoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                <ExpansionPanel onChange={(event:{}, expanded:boolean) => setPanelExpanded(expanded)}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore id="accordion-expansion-icon"/>}
+                  >
+                  <p>{videoTitle[urlObject.indexOf(currentVideoUrl)]}</p>
+                  <p>{videoStatistics?videoStatistics[`${urlObject.indexOf(currentVideoUrl)}`]?.viewCount:null}</p>
+                  <div>
+                  <Button
+                      variant='contained'
+                      startIcon={<ThumbUp />}
+                  >
+                    <p>{videoStatistics?videoStatistics[`${urlObject.indexOf(currentVideoUrl)}`]?.likeCount:null}</p>
+                  </Button>
+                  <Button
+                    variant='contained'
+                    startIcon={<ThumbDown />}
+                  >
+                    <p>{videoStatistics?videoStatistics[`${urlObject.indexOf(currentVideoUrl)}`]?.dislikeCount:null}</p>
+                  </Button>
+                  <Button
+                    variant='contained'
+                    startIcon={<Share />}
+                  >
+                    <p>Share</p>
+                  </Button>
+                  <Button
+                    variant='contained'
+                    startIcon={<GetApp />}
+                  >
+                    <p>Download</p>
+                  </Button>
+                  <Button
+                    variant='contained'
+                    startIcon={<LibraryAdd />}
+                  >
+                    <p>Save</p>
+                  </Button>                                                                            
+                  </div>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <p>
+                      {videoDescription?videoDescription[urlObject.indexOf(currentVideoUrl)]:null}
+                    </p>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <Divider />
+                <div id='comment-controls'>
+                  <h1>Comments <span>{videoStatistics?videoStatistics[`${urlObject.indexOf(currentVideoUrl)}`]?.commentCount:null}</span></h1>
+                  <IconButton onClick={handleClick}>
+                    <Tune />
+                  </IconButton>
+                  <Popper id={popperId} open={popperOpen} anchorEl={popperAnchorEl} placement='top-end' modifiers={{
+                    flip: {
+                      enabled: false,
+                    },
+                    preventOverflow: {
+                      enabled: false,
+                      boundariesElement: 'scrollParent',
+                    }
+                  }}>
+                    <Paper elevation={3}>
+                      <Button><p>Top Comments</p></Button>
+                      <Button><p>Most Relevant</p></Button>
+                    </Paper>
+                  </Popper>
+                </div>
+                <div id='comment-add'>
+                  <Avatar>
+                    <AccountCircle />
+                  </Avatar>
+                  <TextField placeholder="Add a public comment" />
+                </div>
+                <div id='comments-data'>
+                  {commentData?.map((comment:{[string:string]:{[string:string]:{[string:string]:string}}}) => <p key={`${comment.topLevelComment.id}`}>{comment.topLevelComment.snippet.textOriginal}</p>)}
+                </div>
               </div>
               <span className='modal-close'>X</span>
             </div>
@@ -197,9 +348,10 @@ export default function BottomNav(props: any) {
               setNextPage={setNextPage}
               pageTokens={pageTokens}
               hasMore={hasMore}
-              embedObject={embedObject}
               urlObject={urlObject}
               passEmbedUrl={passEmbedUrl}
+              videoTitle={videoTitle}
+              videoStatistics={videoStatistics}
           />
         </Route>
         <Route path='/trending'>
