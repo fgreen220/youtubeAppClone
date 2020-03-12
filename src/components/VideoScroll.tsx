@@ -1,14 +1,17 @@
 import React, { Fragment, useState } from 'react';
 import windowResizer from '../helpers/windowResize';
+import { IconButton } from '@material-ui/core';
+import {
+  MoreVert
+} from '@material-ui/icons';
 
 const VideoScroll = (props:any) => {
 
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   windowResizer(setWindowWidth);
-  console.log(props);
   return(
     <Fragment>
-      {props.page === 'library' ? <p>Recent</p>:null}
+      {props.page === 'library' ? <p id='recentHeading'>Recent</p>:null}
       <div className='videoScroll' style={{...props.style}}>
         {[...new Array(50)].map((item, index) => {
           let i = 0;
@@ -28,11 +31,17 @@ const VideoScroll = (props:any) => {
             :
             props.page === 'library'
             && index<=15 ?
-            <div style={{gridRow:index+1}}
+            <div
             className={`${index===0?'recentDivStart':index===15?'recentDivEnd':'recentDiv'}`}
             key={index}>
-              <div style={{gridRow:1, gridColumn:index+1}} className='recentVideo'></div>
-              <div style={{gridRow:2, gridColumn:index+1}} className='recentInfo'></div>
+              <img src='../assets/no_thumbnail.jpg' style={{gridRow:1, gridColumn:index+1}} />
+              <div className='recentVidInfoContainer'>
+                <p>VIDEO INFO</p>
+                <IconButton className='recentVidActionButton'>
+                    <MoreVert viewBox='-10 0 24 24'/>
+                </IconButton>
+              </div>
+              <p>VIDEO INFO</p>
             </div>
             :
             props.page !== 'library'
@@ -40,14 +49,12 @@ const VideoScroll = (props:any) => {
             <div key={index}>
               <div className='videoContainer'></div>
               <div className='infoContainer'></div>
-              <hr />
             </div>
             :
             null
           )
         })}
       </div>
-      {props.page==='library' ? <hr id='libHorizontalRule'/> : null}
     </Fragment>
   );
 };

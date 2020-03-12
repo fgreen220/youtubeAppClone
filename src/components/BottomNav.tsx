@@ -68,7 +68,7 @@ interface ResponseObject {
 const useStyles = makeStyles({
   root: {
     width: '100vw',
-    backgroundColor: '#212121',
+    backgroundColor: 'white',
     position:'fixed',
     bottom:0
   }
@@ -257,27 +257,6 @@ export default function BottomNav(props: any) {
       modalBg? modalBg.scrollTop = 0:null;
       console.log('scrolled to top');
     })
-  }, [currentVideoUrl])
-
-  useEffect(() => {
-    currentVideoUrl.length >= 1 &&
-    videoId[urlObject.indexOf(currentVideoUrl)]?
-    fetch('http://localhost:3000/comments', {
-      method:'get',
-      headers: {
-        'Content-Type': 'application/json',
-        'videoid': `${videoId[urlObject.indexOf(currentVideoUrl)]}`
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      data = JSON.parse(data);
-      console.log(data);
-      setCommentData((prevComments:[{}]) => [...prevComments, ...data.items.map((comment:{[string:string]:{}}) => {
-        return comment.snippet;
-      })])
-    })
-    :null
   }, [currentVideoUrl])
 
   const [popperAnchorEl, setPopperAnchorEl] = useState<null | HTMLElement>(null);

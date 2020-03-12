@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import IconScroll from './IconScroll';
 import VideoScroll from './VideoScroll';
 import { Subscriptions as SubscriptionsIcon } from '@material-ui/icons';
+import { Button } from '@material-ui/core';
 import windowResizer from '../helpers/windowResize';
 
 const Subscriptions = (props:any) => {
@@ -29,7 +30,7 @@ const Subscriptions = (props:any) => {
         <SubscriptionsIcon />
         <p>Don't miss new videos</p>
         <p>Sign in to see updates from your favorite YouTube channels</p>
-        <button>SIGN IN</button>
+        <Button>SIGN IN</Button>
       </div>
       }
     </Fragment>

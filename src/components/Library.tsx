@@ -26,10 +26,10 @@ const Library = (props:any) => {
 
   return (
     <Fragment>
-      {props.isLoggedIn ?
+      {/* props.isLoggedIn */}
+      {true ?
       <Fragment>
         <VideoScroll page='library' />
-        <hr />
         <div id='library-middle'>
           <Button
             variant='contained'
@@ -60,7 +60,6 @@ const Library = (props:any) => {
             </div>
           </Button>
         </div>
-        <hr />
         <div id='library-bottom'>
           <div id='playlist-filter'>
           <p style={{display:'inline', justifyContent:'space-between'}}>Playlists</p>
@@ -77,9 +76,9 @@ const Library = (props:any) => {
           </div>
           <Button
             variant='contained'
-            startIcon={<Add />}
+            startIcon={<Add id='addPlaylistIcon'/>}
           >
-            New playlist
+            <p id='newPlaylist'>New playlist</p>
           </Button>
           <Button
             variant='contained'
@@ -87,7 +86,48 @@ const Library = (props:any) => {
           >
             Liked videos
           </Button>
-          <VideoScroll style={{marginTop:'100px'}}/>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
+          <Button
+            variant='contained'
+            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+          >
+            Liked videos
+          </Button>
         </div>
       </Fragment>
       :
