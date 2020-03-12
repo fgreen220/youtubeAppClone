@@ -519,9 +519,6 @@ hr {
     width:100%;
     position:relative;
     top:0;
-    #comments-data {
-      padding:0 1.5rem;
-    }
   }
   .modal-video-wrapper{
     iframe {
@@ -624,9 +621,9 @@ hr {
 }
 
 #comment-add {
-  display:inline-grid;
   display:flex;
   padding:0 0 0 1.5rem;
+  margin:0 0 1rem 0;
   .MuiTextField-root {
     flex:1 1 auto;
   }
@@ -636,4 +633,85 @@ hr {
       min-width:20rem;
     }
   }
+}
+#comment-data{
+  display:grid;
+  grid-gap:1rem 0;
+  padding:0 1.5rem;
+  #comment-main {
+    display:flex;
+    #comment-info {
+      flex-direction:column;
+      width:100%;
+    }
+    p {
+      margin:0 0 0 1rem;
+    }
+    #comment-actions {
+      display:flex;
+      .comment-data-count {
+        padding:0.75rem 0;
+      }
+      svg {
+        color:black;
+      }
+      #comment-report {
+        margin-left:auto;
+      }
+    }
+  }
+}
+
+
+.MuiDrawer-modal .MuiDrawer-paperAnchorRight {
+  width:100%;
+  background-color:black;
+  #prevSearchQueriesContainer {
+    display:grid;
+    .prevSearchQueries {
+      display:flex;
+      align-items:center;
+      margin:0 0 0 0.75rem;
+      svg {
+        color:black;
+      }
+      p {
+        margin:0 0 0 1.5rem;
+      }
+      #replace-search-value-button {
+        margin: 0 0 0 auto;
+        #replace-search-value-icon {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+  #searchComponent {
+    display:flex;
+    background-color:white;
+    svg {
+      color:black;
+    }
+    button {
+      width:fit-content;
+      height:fit-content;
+    }
+    form {
+      width:100%;
+      height:fit-content;
+      display:flex;
+      .MuiFormControl-root {
+        width:100%;
+        align-self:center;
+        .MuiInputBase-root {
+          padding:0 0.75rem 0 0;
+        }
+      }
+    }
+
+  }
+}
+
+.MuiDrawer-modal .MuiDrawer-paperAnchorRight.hasPrevSearchResults {
+  background-color:white;
 }

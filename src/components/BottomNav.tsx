@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { 
   BottomNavigation,
   BottomNavigationAction,
@@ -28,7 +28,9 @@ import {
   GetApp,
   LibraryAdd,
   Tune,
-  AccountCircle
+  AccountCircle,
+  Comment,
+  MoreVert
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import selectedButtonHandler from '../helpers/selectedButtonHandler';
@@ -113,7 +115,9 @@ export default function BottomNav(props: any) {
   }}>();
   const [videoDescription, setVideoDescription] = useState<string[]>([]);
   const [videoId, setVideoId] = useState<string[]>([]);
-
+  // const loading = false;
+  // const error = false;
+  // const hasMore = false;
   const {
     loading,
     error,
@@ -135,10 +139,6 @@ export default function BottomNav(props: any) {
 
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   windowResizer(setWindowWidth);
-
-  const modalElement = document.querySelector('.modal');
-
-  const [modalScrollHeight, setModalScrollHeight] = useState<number>(document.body.scrollHeight)
 
   const [commentData, setCommentData] = useState<{}[]>([]);
 
@@ -164,8 +164,9 @@ export default function BottomNav(props: any) {
     :null
   }, [currentVideoUrl])
 
-  const [modalHeight, setModalHeight] = useState<number|string>('100vh');
-  const [panelExpanded, setPanelExpanded] = useState<boolean>(false);
+  const passEmbedUrl = async (urlString:string) => {
+    await setCurrentVideoUrl(() => urlString);
+  }
 
   useEffect(() => {
     const modalVideoLink = document.querySelectorAll('.modal-link');
@@ -178,11 +179,8 @@ export default function BottomNav(props: any) {
     const hideIconSmall = document.querySelectorAll('icon-small-toggle');
     const hideIconLarge = document.querySelectorAll('.icon-large-toggle');
     const bgActive = document.querySelector('.bg-active');
-    console.log(bgActive,'.............................');
 
     const addBg = () => {
-
-
       modalBg?.classList.add('bg-active');
       modalBg?disableBodyScroll(modalBg):null;
       topAppBar?.classList.add('hidden-app-bar');
@@ -204,6 +202,31 @@ export default function BottomNav(props: any) {
       }
       )
     }
+
+    Array(modalVideoLink)[0].forEach(video => {
+      video.addEventListener('click', addBg);
+    })
+    return(() => {
+      Array(modalVideoLink)[0].forEach(video => {
+        video.removeEventListener('click', addBg);
+      })
+    })
+
+
+  })
+
+  useEffect(() => {
+    const modalClose = document.querySelector('.modal-close');
+    const modalBg = document.querySelector('.modal-bg');
+    const hideEllipsis = document.querySelectorAll('.video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu-placeholder');
+    const hideAccountCircle = document.querySelectorAll('.video-tile-account-circle');
+    const topAppBar = document.querySelector('.top-app-bar');
+    const bottomNavBar = document.querySelector('.bottom-nav-bar');
+    const hideIconSmall = document.querySelectorAll('icon-small-toggle');
+    const hideIconLarge = document.querySelectorAll('.icon-large-toggle');
+    const bgActive = document.querySelector('.bg-active');
+
+  
     const removeBg = () => {
       modalBg?.classList.remove('bg-active')
       modalBg?enableBodyScroll(modalBg):null;
@@ -226,24 +249,36 @@ export default function BottomNav(props: any) {
       }
       )
     }
-    Array(modalVideoLink)[0].forEach(video => {
-      video.addEventListener('click', addBg);
-    })
+
     modalClose?.addEventListener('click', removeBg)
 
     return(() => {
-      Array(modalVideoLink)[0].forEach(video => {
-        video.removeEventListener('click', addBg);
-      })
       modalClose?.removeEventListener('click', removeBg);
       modalBg? modalBg.scrollTop = 0:null;
       console.log('scrolled to top');
     })
-  }, [commentData])
+  }, [currentVideoUrl])
 
-  const passEmbedUrl = (urlString:string) => {
-    setCurrentVideoUrl(() => urlString);
-  }
+  useEffect(() => {
+    currentVideoUrl.length >= 1 &&
+    videoId[urlObject.indexOf(currentVideoUrl)]?
+    fetch('http://localhost:3000/comments', {
+      method:'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'videoid': `${videoId[urlObject.indexOf(currentVideoUrl)]}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      data = JSON.parse(data);
+      console.log(data);
+      setCommentData((prevComments:[{}]) => [...prevComments, ...data.items.map((comment:{[string:string]:{}}) => {
+        return comment.snippet;
+      })])
+    })
+    :null
+  }, [currentVideoUrl])
 
   const [popperAnchorEl, setPopperAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -259,10 +294,10 @@ export default function BottomNav(props: any) {
       <Switch>
         <Route exact path='/'>
           <div className='modal-bg' >
-            <div style={{minHeight:'auto'}} className='modal'>
+            <div className='modal'>
               <div className={'modal-video-wrapper modal-wrapper'}>
                 <iframe width="480px" height="270px" src={currentVideoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                <ExpansionPanel onChange={(event:{}, expanded:boolean) => setPanelExpanded(expanded)}>
+                <ExpansionPanel>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMore id="accordion-expansion-icon"/>}
                   >
@@ -334,8 +369,48 @@ export default function BottomNav(props: any) {
                   </Avatar>
                   <TextField placeholder="Add a public comment" />
                 </div>
-                <div id='comments-data'>
-                  {commentData?.map((comment:{[string:string]:{[string:string]:{[string:string]:string}}}) => <p key={`${comment.topLevelComment.id}`}>{comment.topLevelComment.snippet.textOriginal}</p>)}
+                <div id='comment-data'>
+                  {commentData?.map((comment:{[string:string]:any}, index) => {
+                    return (
+                      <Fragment key={`${comment.topLevelComment.id}`}>
+                        {index === 0?<Divider />:null}
+                        <div id='comment-main'>  
+                          <Avatar>
+                            <AccountCircle />
+                          </Avatar>
+                          <div id='comment-info'> 
+                            <p>{`${comment.topLevelComment.snippet.authorDisplayName} • `}
+                            {comment.topLevelComment.snippet.publishedAt.localeCompare(
+                              comment.topLevelComment.snippet.updatedAt
+                            ) === 0?comment.topLevelComment.snippet.publishedAt:
+                            `${comment.topLevelComment.snippet.updatedAt} (edited)`}</p>                   
+                            <p>{comment.topLevelComment.snippet.textOriginal}</p>
+                            <div id='comment-actions'>
+                              <IconButton>
+                                  <ThumbUp />
+                              </IconButton>
+                              <span className='comment-data-count'>{comment.topLevelComment.snippet.likeCount}</span>
+                              <IconButton>
+                                <ThumbUp />
+                              </IconButton>
+                              <IconButton>
+                                <Comment />
+                              </IconButton>
+                              <span className='comment-data-count'>{comment.totalReplyCount!==0?comment.totalReplyCount:null}</span>
+                              <IconButton id='comment-report'>
+                                <MoreVert />
+                              </IconButton>
+                            </div>
+                            <div id='view-replies'>
+                                {comment.totalReplyCount!==0?<Button>{`VIEW ${comment.totalReplyCount} REPLIES`}</Button>:null}
+                            </div>
+                          </div>
+                        </div>
+                        <Divider />
+                        </Fragment>
+                    );
+                  }
+                  )}
                 </div>
               </div>
               <span className='modal-close'>X</span>

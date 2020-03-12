@@ -97,4 +97,24 @@ app.get('/comments', (request:any, response:any) => {
   })
 })
 
+app.get('/search', (request:any, response:any) => {
+  const { searchquery } = request.headers;
+  const part = 'snippet';
+  const hardcodeQuery = 'reactjs';
+  https.get(`https://www.googleapis.com/youtube/v3/search?part=${part}&q=${searchquery}&type=video&key=${config.YT_KEY}`, (resp:any) => {
+    let data = '';
+
+    resp.on('data', (chunk:any) => {
+      data+= chunk;
+    });
+
+    resp.on('end', () => {
+      response.setHeader('Content-Type', 'application/json');
+      response.send(JSON.stringify(data));
+    })
+  }).on('error', (err:any) => {
+    console.log(`Error": ${err.message}`);
+  })
+})
+
 app.listen(3000, () => console.log('Server Started'));
