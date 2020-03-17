@@ -2,12 +2,14 @@ import React, { Fragment, useState } from 'react';
 import IconScroll from './IconScroll';
 import VideoScroll from './VideoScroll';
 import { Subscriptions as SubscriptionsIcon } from '@material-ui/icons';
-import { Button } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
 import windowResizer from '../helpers/windowResize';
 
 const Subscriptions = (props:any) => {
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
   windowResizer(setWindowWidth);
+  const [signInTooltipOpen, setSignInTooltipOpen] = useState<boolean>(false);
+
   return (
     <Fragment>
       {props.isLoggedIn ?
@@ -30,7 +32,14 @@ const Subscriptions = (props:any) => {
         <SubscriptionsIcon />
         <p>Don't miss new videos</p>
         <p>Sign in to see updates from your favorite YouTube channels</p>
-        <Button>SIGN IN</Button>
+        <Tooltip title='Feature not supported' open={signInTooltipOpen} onOpen={() => null}
+          onClick={() => setSignInTooltipOpen(() => true)}
+          onClose={() => {
+            setSignInTooltipOpen(() => false);
+        }}
+        >
+          <Button>SIGN IN</Button>
+        </Tooltip>
       </div>
       }
     </Fragment>

@@ -1,14 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import windowResizer from '../helpers/windowResize';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 import {
   MoreVert
 } from '@material-ui/icons';
 
 const VideoScroll = (props:any) => {
 
-  const [windowWidth, setWindowWidth] = useState(window.outerWidth);
+  const [windowWidth, setWindowWidth] = useState<number>(window.outerWidth);
   windowResizer(setWindowWidth);
+  const [contextTooltipOpen, setContextTooltipOpen] = useState<boolean>(false);
+  const [indexToOpen, setIndexToOpen] = useState<number>(16);
+
   return(
     <Fragment>
       {props.page === 'library' ? <p id='recentHeading'>Recent</p>:null}
@@ -37,9 +40,19 @@ const VideoScroll = (props:any) => {
               <img src='../assets/no_thumbnail.jpg' style={{gridRow:1, gridColumn:index+1}} />
               <div className='recentVidInfoContainer'>
                 <p>VIDEO INFO</p>
-                <IconButton className='recentVidActionButton'>
-                    <MoreVert viewBox='-10 0 24 24'/>
-                </IconButton>
+                <Tooltip title='Feature not supported' open={index === indexToOpen? contextTooltipOpen:false} 
+                  disableFocusListener={true}
+                  onOpen={(event:any) => {
+                    setIndexToOpen(() => index)
+                  }}
+                  onClose={() => setContextTooltipOpen(() => false)}
+                >
+                  <IconButton className='recentVidActionButton' disableFocusRipple={true} disableRipple={true}
+                    onClick={() => setContextTooltipOpen(() => true)}
+                  >
+                      <MoreVert viewBox='-10 0 24 24' />
+                  </IconButton>
+                </Tooltip>
               </div>
               <p>VIDEO INFO</p>
             </div>

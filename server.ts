@@ -117,4 +117,23 @@ app.get('/search', (request:any, response:any) => {
   })
 })
 
+app.get('/result-videos', (request:any, response:any) => {
+  const { resultvideoid } = request.headers;
+  const part = 'snippet,statistics,contentDetails';
+  https.get(`https://www.googleapis.com/youtube/v3/videos?part=${part}&id=${resultvideoid}&type=video&key=${config.YT_KEY}`, (resp:any) => {
+    let data = '';
+
+    resp.on('data', (chunk:any) => {
+      data+= chunk;
+    });
+
+    resp.on('end', () => {
+      response.setHeader('Content-Type', 'application/json');
+      response.send(JSON.stringify(data));
+    })
+  }).on('error', (err:any) => {
+    console.log(`Error": ${err.message}`);
+  })
+})
+
 app.listen(3000, () => console.log('Server Started'));

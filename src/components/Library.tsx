@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {
   Button,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
+  makeStyles,
+  Tooltip
 } from '@material-ui/core';
 import {
   History,
@@ -17,62 +19,106 @@ import {
 import VideoScroll from './VideoScroll';
 
 const Library = (props:any) => {
-  const [selectedString, setSelectedString] = useState('Recently added');
+  const [selectedString, setSelectedString] = useState<string>('Recently added');
 
 
-  const handleChange = (event:React.ChangeEvent<{value: unknown}>) => {
-    setSelectedString(event.target.value as string)
+  const handleChange = (event:React.ChangeEvent<{value: string}>) => {
+    setSelectedString(event.target.value as string);
+    setFilterTooltipOpen(() => true);
+    setTimeout(() => setFilterTooltipOpen(() => false),3000)
   }
+
+  const [testOpen, setTestOpen] = useState<boolean>(false);
+  const [historyTooltipOpen, setHistoryTooltipOpen] = useState<boolean>(false);
+  const [videosTooltipOpen, setVideosTooltipOpen] = useState<boolean>(false);
+  const [purchasesTooltipOpen, setPurchasesTooltipOpen] = useState<boolean>(false);
+  const [watchLaterTooltipOpen, setWatchLaterTooltipOpen] = useState<boolean>(false);
+  const [filterTooltipOpen, setFilterTooltipOpen] = useState<boolean>(false);
 
   return (
     <Fragment>
-      {/* props.isLoggedIn */}
-      {true ?
+      {testOpen ?
       <Fragment>
         <VideoScroll page='library' />
         <div id='library-middle'>
-          <Button
-            variant='contained'
-            startIcon={<History />}
+          <Tooltip title='Feature not supported' open={historyTooltipOpen} onOpen={() => null}
+            onClick={() => setHistoryTooltipOpen(() => true)}
+            onClose={() => {
+              setHistoryTooltipOpen(() => false);
+          }}
           >
-            History
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<Slideshow />}
+            <Button
+              variant='contained'
+              startIcon={<History />}
+            >
+              History
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={videosTooltipOpen} onOpen={() => null}
+            onClick={() => setVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setVideosTooltipOpen(() => false);
+          }}
           >
-            Your Videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<LocalOffer />}
+            <Button
+              variant='contained'
+              startIcon={<Slideshow />}
+            >
+              Your Videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={purchasesTooltipOpen} onOpen={() => null}
+            onClick={() => setPurchasesTooltipOpen(() => true)}
+            onClose={() => {
+              setPurchasesTooltipOpen(() => false);
+          }}
           >
-            Purchases
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<WatchLater />}
-            id='watch-later-button'
+            <Button
+              variant='contained'
+              startIcon={<LocalOffer />}
+            >
+              Purchases
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={watchLaterTooltipOpen} onOpen={() => null}
+            onClick={() => setWatchLaterTooltipOpen(() => true)}
+            onClose={() => {
+              setWatchLaterTooltipOpen(() => false);
+          }}
           >
-            <div>
-            <p id='watch-later'>Watch Later</p>
-            <p id='watched-videos'>0 watched videos</p>
-            </div>
-          </Button>
+            <Button
+              variant='contained'
+              startIcon={<WatchLater />}
+              id='watch-later-button'
+            >
+              <div>
+              <p id='watch-later'>Watch Later</p>
+              <p id='watched-videos'>0 watched videos</p>
+              </div>
+            </Button>
+          </Tooltip>
         </div>
         <div id='library-bottom'>
           <div id='playlist-filter'>
           <p style={{display:'inline', justifyContent:'space-between'}}>Playlists</p>
-          <FormControl>
-            <Select
-            id='select-label'
-            value={selectedString}
-            onChange={handleChange}
-            >
-              <MenuItem value='A-Z'>A-Z</MenuItem>
-              <MenuItem value='Recently added'>Recently Added</MenuItem>
-            </Select>
-          </FormControl>
+          <Tooltip title='Feature not supported' open={filterTooltipOpen} onOpen={() => null}
+            disableFocusListener={true}
+            onClose={() => {
+              setFilterTooltipOpen(() => false);
+          }}
+          >
+            <FormControl>
+              <Select
+              id='select-label'
+              value={selectedString}
+              onChange={handleChange}
+              >
+                          
+                <MenuItem value='A-Z'>A-Z</MenuItem>
+                <MenuItem value='Recently added'>Recently Added</MenuItem>
+              </Select>
+            </FormControl>
+          </Tooltip>
           </div>
           <Button
             variant='contained'
@@ -90,43 +136,51 @@ const Library = (props:any) => {
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Home videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Music videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Review videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Cooking videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Sports videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Trending videos
           </Button>
           <Button
             variant='contained'
             startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
           >
-            Liked videos
+            Cat videos
+          </Button>
+          <Button
+            variant='contained'
+            onClick={() => {
+              setTestOpen(() => false);
+            }}
+          >
+            <p>DEFAULT LIBRARY</p>
           </Button>
         </div>
       </Fragment>
@@ -135,7 +189,12 @@ const Library = (props:any) => {
         <Folder />
         <p>Your notifications live here</p>
         <p>Don't miss the latest videos and more from your favorite channels.</p>
-        <button>TURN ON NOTIFICATIONS</button>
+        <Button 
+        onClick={
+          () => {
+            setTestOpen(() => true);
+          }
+        }>TEST LIBRARY</Button>
       </div>
       }
     </Fragment>

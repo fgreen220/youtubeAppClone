@@ -31,8 +31,6 @@ const Trending = (props:any) => {
     if(observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver( async (results) => {
       if(results[0].isIntersecting && props.hasMore[props.trendingCategoryPage]) {
-        console.log('Visible');
-        console.log('-------------',props.trendingCategoryPage)
         const returnedValue = await trendingNextPageHandler();
         return returnedValue;
       }
@@ -51,9 +49,6 @@ const Trending = (props:any) => {
       <IconScroll categoryListObject={props.categoryListObject} trendingCategoryHandler={trendingCategoryHandler} page='trending' loading={props.loading}/>
       <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
       {displayedArray[props.trendingCategoryPage]?.map((item:any, index:number) => {
-        index === 0 ? console.log('DA: ',displayedArray,
-          'VD: ',props.trendingVideoData[props.trendingCategoryPage],
-          'UO: ',props.urlTrendingObject[props.trendingCategoryPage]):null;
         let sizeClass:string;
         switch(windowWidth) {
           case(windowWidth<=550?windowWidth:null):
