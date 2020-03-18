@@ -107,7 +107,8 @@ const HideOnScroll = (props: any) => {
     const [prevSearchArray, setPrevSearchArray] = useState<string[]>([]);
     const [searchResultId, setSearchResultId] = useState<number>(-1);
     const [searchResultTooltipOpen, setSearchResultTooltipOpen] = useState<boolean>(false);
-  
+    const [searchResultsDisplay, setSearchResultsDisplay] = useState<boolean>(false);
+
     const searchHandler = (searchQuery:string) => {
       props.setLoading(() => true);
       fetch('http://localhost:3000/search', {
@@ -136,8 +137,6 @@ const HideOnScroll = (props: any) => {
       });
     }
     const [searchOpen, setSearchOpen] = useState<boolean>(false);
-    const [dummyState, setDummyState] = useState<boolean>(false);
-    const [searchResultsDisplay, setSearchResultsDisplay] = useState<boolean>(false);
 
     const searchRef = useRef<any>();
     const searchDrawer = document.querySelector('.MuiDrawer-paperAnchorRight');
@@ -159,6 +158,13 @@ const HideOnScroll = (props: any) => {
     const [castTooltipOpen, setCastTooltipOpen] = useState<boolean>(false);
     const [filterTooltipOpen, setFilterTooltipOpen] = useState<boolean>(false);
     const [resultsCastTooltipOpen, setResultsCastTooltipOpen] = useState<boolean>(false);
+    const [isLoadingModal, setIsLoadingModal] = useState<boolean>(false);
+
+    // useEffect(() => {
+    //   if(props.currentVideoId !== ''){
+    //     props.modalLoadingHandler(true);
+    //   }
+    // }, [props.loadingModal, props.currentVideoId])
 
   return (
     <div className={`${classes.root} top-app-bar`}>
@@ -249,6 +255,7 @@ const HideOnScroll = (props: any) => {
                   } else {
                     setSearchTooltipOpen(() => true);
                   }
+                  props.loadingResultsHandler(false);
               }}>
                 <TextField inputRef={searchRef} autoFocus={true} id='videoSearchBar' placeholder='Video Search' 
                   onChange={(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -278,6 +285,7 @@ const HideOnScroll = (props: any) => {
                     setVideoSearchQuery(() => event.target.innerText);
                     setSearchOpen(() => false);
                     setSearchResultsDisplay(() => true);
+                    videoSearchQuery !== '' ? searchHandler(videoSearchQuery): null;
                   }
               }
             }>
@@ -351,14 +359,19 @@ const HideOnScroll = (props: any) => {
               <div id='searchResultsList'>
                 {Object.keys(props.searchResultsArray[0]).length !== 0 ?
                     props.searchResultsArray[props.searchResultsArray.length-1].items.map((result:{[itemObject:string]:any}, index:number) => {
-                      return <div key={`${result.id.videoId}^${index}`} id='searchResultsDrawer' onClick={() => {
-                        props.setSearchResultIndex(() => index);
-                        props.setIsSearchResult(() => true);
-                        props.setCurrentVideoId(() => {
-                          console.log(props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']);
-                          return `${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`;
-                      });
-                        props.passEmbedUrl(`//www.youtube.com/embed/${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`);
+                        props.loadingResultsHandler(true);
+                      return <div key={`${result.id.videoId}^${index}`} id='searchResultsDrawer' onClick={(event:any) => {
+                        event.persist();
+                        console.log(event.target.id, event.target.tagName);
+                        if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
+                          console.log(event);
+                          props.setSearchResultIndex(() => index);
+                          props.setIsSearchResult(() => true);
+                          props.setCurrentVideoId(() => {
+                            return `${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`;
+                        });
+                          props.passEmbedUrl(`//www.youtube.com/embed/${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`);
+                        }
                       }}>
                         <img src={
                           result.snippet.thumbnails.high.url ?

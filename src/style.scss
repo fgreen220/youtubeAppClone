@@ -635,12 +635,17 @@ button span {
 
 }
 
-.modal-close {
-  position: absolute;
-  bottom:1rem;
-  right:1.5rem;
+.MuiExpansionPanelSummary-content div {
+  white-space: nowrap;
+}
+
+#modal-close {
+  // position: absolute;
+  // bottom:1rem;
+  // right:1.5rem;
   font-weight:bold;
   cursor:pointer;
+  color:red;
 }
 
 .modal-link {
@@ -843,6 +848,7 @@ button span {
     #searchResultsDrawer {
       display:flex;
       margin:0.75rem 0 0.75rem 0.75rem;
+      cursor:pointer;
       img {
         margin:0 0.75rem 0 0;
         width:15vw;
@@ -851,6 +857,9 @@ button span {
       .videoSearchInfo {
         p {
           margin:0;
+          &:last-child {
+            font-size:0.5rem;
+          }
         }
       }
       .MuiIconButton-root {

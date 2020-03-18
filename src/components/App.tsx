@@ -29,6 +29,8 @@ const App = () => {
   const [searchResultsArray, setSearchResultsArray] = useState<{[key:string]:any}[]>([{}]);
   const [searchResultIndex, setSearchResultIndex] = useState<number>(-1);
   const [loadingModal, setLoadingModal] = useState<boolean>(false);
+  const [loadingResults, setLoadingResults] = useState<boolean>(false);
+  
 
   const passEmbedUrl = async (urlString:string) => {
     await setCurrentVideoUrl(() => urlString);
@@ -36,6 +38,14 @@ const App = () => {
 
   const handleClick = (event:React.MouseEvent<HTMLElement>) => {
     setPopperAnchorEl(popperAnchorEl ? null : event.currentTarget);
+  }
+
+  const modalLoadingHandler = (booleanVal:boolean) => {
+    setLoadingModal(() => booleanVal);
+  }
+
+  const loadingResultsHandler = (toggleBetween:boolean) => {
+    setLoadingResults(() => toggleBetween);
   }
 
   useEffect(() => {
@@ -51,28 +61,34 @@ const App = () => {
     const hideIconLarge = document.querySelectorAll('.icon-large-toggle');
     const bgActive = document.querySelector('.bg-active');
 
-    const addBg = () => {
-      // setLoadingModal(() => true);
-      modalBg?.classList.add('bg-active');
-      modalBg?disableBodyScroll(modalBg):null;
-      topAppBar?.classList.add('hidden-app-bar');
-      bottomNavBar?.classList.add('hidden-nav-bar');
-      Array(hideIconSmall)[0].forEach(icon => {
-        icon.classList.replace('icon-small', 'hidden-icon-small');
-      }
-      )
-      Array(hideIconLarge)[0].forEach(icon => {
-        icon.classList.replace('icon-large', 'hidden-icon-large');
-      }
-      )
-      Array(hideEllipsis)[0].forEach(node => {
-        node.classList.replace('ellipsis-menu', 'hidden-ellipsis');
-      }
-      )
-      Array(hideAccountCircle)[0].forEach(node => {
-        node.classList.add('hidden-account-circle');
-      }
-      )
+    const addBg = (event:any) => {
+        console.log(currentVideoId, loadingModal, loadingResults);
+        console.log(event);
+        if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
+          setLoadingResults(() => false);
+          setLoadingModal(() => true);
+          console.log(currentVideoId, loadingModal, loadingResults)
+          modalBg?.classList.add('bg-active');
+          modalBg?disableBodyScroll(modalBg):null;
+          topAppBar?.classList.add('hidden-app-bar');
+          bottomNavBar?.classList.add('hidden-nav-bar');
+          Array(hideIconSmall)[0].forEach(icon => {
+            icon.classList.replace('icon-small', 'hidden-icon-small');
+          }
+          )
+          Array(hideIconLarge)[0].forEach(icon => {
+            icon.classList.replace('icon-large', 'hidden-icon-large');
+          }
+          )
+          Array(hideEllipsis)[0].forEach(node => {
+            node.classList.replace('ellipsis-menu', 'hidden-ellipsis');
+          }
+          )
+          Array(hideAccountCircle)[0].forEach(node => {
+            node.classList.add('hidden-account-circle');
+          }
+          )
+        }
     }
 
     Array(modalVideoLink)[0].forEach(video => {
@@ -93,7 +109,7 @@ const App = () => {
   })
 
   useEffect(() => {
-    const modalClose = document.querySelector('.modal-close');
+    const modalClose = document.querySelector('#modal-close');
     const modalBg = document.querySelector('.modal-bg');
     const hideEllipsis = document.querySelectorAll('.video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu-placeholder');
     const hideAccountCircle = document.querySelectorAll('.video-tile-account-circle');
@@ -105,7 +121,9 @@ const App = () => {
 
   
     const removeBg = () => {
-      modalBg?.classList.remove('bg-active')
+      // setLoadingModal(() => false);
+      setLoadingModal(() => false);
+      modalBg?.classList.remove('bg-active');
       modalBg?enableBodyScroll(modalBg):null;
       topAppBar?.classList.remove('hidden-app-bar');
       bottomNavBar?.classList.remove('hidden-nav-bar');
@@ -132,12 +150,11 @@ const App = () => {
     return(() => {
       modalClose?.removeEventListener('click', removeBg);
       modalBg? modalBg.scrollTop = 0:null;
-      console.log('scrolled to top');
     })
   }, [currentVideoUrl, currentVideoId, loadingModal])
 
   useEffect(() => {
-    if(currentVideoId.length >= 1) {
+    if(currentVideoId.length >= 1 && loadingModal) {
       setCommentLoading(() => true);
       fetch('http://localhost:3000/comments', {
         method:'get',
@@ -160,7 +177,7 @@ const App = () => {
 
   useEffect(() => {
     currentVideoUrl.length >= 1 &&
-    videoId[urlObject.indexOf(currentVideoUrl)]?
+    videoId[urlObject.indexOf(currentVideoUrl)] && loadingModal?
     fetch('http://localhost:3000/comments', {
       method:'get',
       headers: {
@@ -192,6 +209,10 @@ const App = () => {
         searchResultsArray={searchResultsArray}
         searchResultIndex={searchResultIndex}
         setSearchResultIndex={setSearchResultIndex}
+        modalLoadingHandler={modalLoadingHandler}
+        loadingResultsHandler={loadingResultsHandler}
+        currentVideoId={currentVideoId}
+        loadingModal={loadingModal}
       />
       <BottomNav 
         setVideoId={setVideoId}
@@ -217,7 +238,6 @@ const App = () => {
         searchResultsArray={searchResultsArray}
         searchResultIndex={searchResultIndex}
         setSearchResultIndex={setSearchResultIndex}
-      />
       />
 
     </Fragment>
