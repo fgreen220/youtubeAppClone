@@ -82,25 +82,25 @@ export default function BottomNav(props: any) {
   const [trendingVideoData, setTrendingVideoData]  = useState({});
   const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
   const [urlTrendingObject, setUrlTrendingObject] = useState({});
-  const loading = true;
-  const error = false;
-  const hasMore = false;
-  // const {
-  //   loading,
-  //   error,
-  //   hasMore
-  // } = useVideoSearch(
-  //   selectedButton==='/trending'?trendingNextPage:nextPage,
-  //   selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
-  //   selectedButton==='/trending'?trendingPageTokens:pageTokens,
-  //   selectedButton==='/trending'?setTrendingVideoData:setVideoData,
-  //   selectedButton,
-  //   trendingCategoryPage,
-  //   selectedButton==='/trending'?setUrlTrendingObject:props.setUrlObject,
-  //   props.setVideoTitle,
-  //   props.setVideoStatistics,
-  //   props.setVideoDescription,
-  //   props.setVideoId);
+  // const loading = true;
+  // const error = false;
+  // const hasMore = false;
+  const {
+    loading,
+    error,
+    hasMore
+  } = useVideoSearch(
+    selectedButton==='/trending'?trendingNextPage:nextPage,
+    selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
+    selectedButton==='/trending'?trendingPageTokens:pageTokens,
+    selectedButton==='/trending'?setTrendingVideoData:setVideoData,
+    selectedButton,
+    trendingCategoryPage,
+    selectedButton==='/trending'?setUrlTrendingObject:props.setUrlObject,
+    props.setVideoTitle,
+    props.setVideoStatistics,
+    props.setVideoDescription,
+    props.setVideoId);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
 
