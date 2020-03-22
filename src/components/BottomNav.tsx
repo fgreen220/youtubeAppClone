@@ -12,14 +12,14 @@ import {
   VideoLibrary
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import selectedButtonHandler from '../helpers/selectedButtonHandler';
+import selectedButtonHandler from '../helpers/selectedButtonHandler'
 import Trending from './Trending';
 import Inbox from './Inbox';
 import SubscriptionsView from './Subscriptions';
 import Library from './Library';
 import HomeView from './Home';
 import useVideoSearch from '../hooks/useVideoSearch';
-import windowResizer from '../helpers/windowResize';
+import windowResizer from '../helpers/windowResize'
 import ModalOverlay from './ModalOverlay'
 
 
@@ -82,25 +82,25 @@ export default function BottomNav(props: any) {
   const [trendingVideoData, setTrendingVideoData]  = useState({});
   const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
   const [urlTrendingObject, setUrlTrendingObject] = useState({});
-  // const loading = false;
-  // const error = false;
-  // const hasMore = false;
-  const {
-    loading,
-    error,
-    hasMore
-  } = useVideoSearch(
-    selectedButton==='/trending'?trendingNextPage:nextPage,
-    selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
-    selectedButton==='/trending'?trendingPageTokens:pageTokens,
-    selectedButton==='/trending'?setTrendingVideoData:setVideoData,
-    selectedButton,
-    trendingCategoryPage,
-    selectedButton==='/trending'?setUrlTrendingObject:props.setUrlObject,
-    props.setVideoTitle,
-    props.setVideoStatistics,
-    props.setVideoDescription,
-    props.setVideoId);
+  const loading = true;
+  const error = false;
+  const hasMore = false;
+  // const {
+  //   loading,
+  //   error,
+  //   hasMore
+  // } = useVideoSearch(
+  //   selectedButton==='/trending'?trendingNextPage:nextPage,
+  //   selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
+  //   selectedButton==='/trending'?trendingPageTokens:pageTokens,
+  //   selectedButton==='/trending'?setTrendingVideoData:setVideoData,
+  //   selectedButton,
+  //   trendingCategoryPage,
+  //   selectedButton==='/trending'?setUrlTrendingObject:props.setUrlObject,
+  //   props.setVideoTitle,
+  //   props.setVideoStatistics,
+  //   props.setVideoDescription,
+  //   props.setVideoId);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
 

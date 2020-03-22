@@ -4,6 +4,7 @@ import VideoScroll from './VideoScroll';
 import windowResizer from '../helpers/windowResize';
 import { AccountCircle, MoreVert } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 
 const Trending = (props:any) => {
   const [windowWidth, setWindowWidth] = useState(window.outerWidth);
@@ -44,29 +45,30 @@ const Trending = (props:any) => {
     }
   },[props.trendingVideoData, props.trendingCategoryPage])
 
+  let sizeClass:string;
+  switch(windowWidth) {
+    case(windowWidth<=550?windowWidth:null):
+      sizeClass='video-tiles-1';
+      break;
+    case(windowWidth<=1100 && windowWidth > 550?windowWidth:null):
+      sizeClass = 'video-tiles-2';
+      break;
+    default:
+      sizeClass='video-tiles-3'
+  }
+
   return(
     <Fragment>
       <IconScroll categoryListObject={props.categoryListObject} trendingCategoryHandler={trendingCategoryHandler} page='trending' loading={props.loading}/>
       <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
       {displayedArray[props.trendingCategoryPage]?.map((item:any, index:number) => {
-        let sizeClass:string;
-        switch(windowWidth) {
-          case(windowWidth<=550?windowWidth:null):
-            sizeClass='video-tiles-1';
-            break;
-          case(windowWidth<=1100 && windowWidth > 550?windowWidth:null):
-            sizeClass = 'video-tiles-2';
-            break;
-          default:
-            sizeClass='video-tiles-3'
-        }
         return (
           displayedArray[props.trendingCategoryPage]?.length !== index+1 ?
               <div className={`${sizeClass} modal-link`}
               key={`withoutLastElementRef-${index}`}
               onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
                 {/* ['snippet']['thumbnails']['maxres']['url'] */}
-                <img src={`${item}`} />
+                <img className='videoThumbnail' src={`${item}`} />
                 <div className='video-tile-info-container'>
                   <IconButton>
                     <AccountCircle className='video-tile-account-circle'/>
@@ -80,7 +82,7 @@ const Trending = (props:any) => {
             key={`withLastElementRef-${index}`} ref={lastVideoElementRef}
             onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
-              <img src={`${item}`} />
+              <img className='videoThumbnail' src={`${item}`} />
               <div className='video-tile-info-container'>
                 <IconButton>
                   <AccountCircle className='video-tile-account-circle'/>
@@ -91,7 +93,22 @@ const Trending = (props:any) => {
             </div>
         )
       })}
-      <div>{props.loading && 'Loading...'}</div>
+      {
+        props.loading ?
+          [...new Array(12)].map((item:any, index:number) => {
+            return (
+              <div key={index} className={`${sizeClass} modal-link`}>
+                <Skeleton variant='rect' className='videoThumbnail'/>
+                <div className='video-tile-info-container'>
+                  <Skeleton style={{gridColumn:'1/span 3', height:'1.5rem'}} id='skeleton-info'/>
+                  <Skeleton style={{gridColumn:'1/span 3', height:'1.5rem'}} id='skeleton-info'/>
+                </div>
+              </div>
+            );
+          })
+        :
+        null
+      }
       <div>{props.error && 'Error'}</div> 
     </div>
     </Fragment>

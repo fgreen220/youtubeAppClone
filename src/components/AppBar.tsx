@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { 
   AppBar,
   Toolbar,
@@ -31,9 +31,11 @@ import {
   YouTube,
   MeetingRoom,
   Settings,
-  Help
+  Help,
+  Block
 } from '@material-ui/icons';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -96,12 +98,19 @@ const HideOnScroll = (props: any) => {
   );
 }
 
+const skeletonStyles = makeStyles({
+  root: {
+    display:'flex'
+  }
+})
+
   const HeaderNav = (props: any):any => {
     const classes = useStyles();
     const appBarClasses = appBarStyles();
     const accountClasses = accountStyles();
     const resultsClasses:Record<"modal", string> = searchResultsStyles();
     const videoRecordClasses = videoRecordStyles();
+    const skeletonClasses = skeletonStyles();
 
     const [videoSearchQuery, setVideoSearchQuery] = useState<string>('');
     const [prevSearchArray, setPrevSearchArray] = useState<string[]>([]);
@@ -325,10 +334,14 @@ const HideOnScroll = (props: any) => {
                   <ArrowBack />
                 </IconButton>
                 <TextField value={videoSearchQuery !== ''?`${videoSearchQuery}`:''} id='videoSearchResultsBar'
-                 onFocus={() => setSearchResultsDisplay(() => false)}/>
+                 onFocus={() => {
+                   setSearchResultsDisplay(() => false);
+                   setSearchOpen(() => true);
+                 }}/>
                 <div id='searchResultButtonGroup'>
                   <IconButton onClick={() => {
                     setSearchResultsDisplay(() => false);
+                    setSearchOpen(() => true);
                     searchRef.current.value = '';
                     }
                   }>
@@ -358,6 +371,13 @@ const HideOnScroll = (props: any) => {
               </form>
               <div id='searchResultsList'>
                 {Object.keys(props.searchResultsArray[0]).length !== 0 ?
+                  props.searchResultsArray[props.searchResultsArray.length-1].pageInfo.totalResults === 0 ?
+                  <div id='no-search-results'>
+                  <Block />
+                  <p id='no-search-results-title'>No results found</p>
+                  <p>Try different keywords</p>
+                </div>
+                 :
                     props.searchResultsArray[props.searchResultsArray.length-1].items.map((result:{[itemObject:string]:any}, index:number) => {
                         props.loadingResultsHandler(true);
                       return <div key={`${result.id.videoId}^${index}`} id='searchResultsDrawer' onClick={(event:any) => {
@@ -365,15 +385,18 @@ const HideOnScroll = (props: any) => {
                         console.log(event.target.id, event.target.tagName);
                         if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
                           console.log(event);
-                          props.setSearchResultIndex(() => index);
-                          props.setIsSearchResult(() => true);
-                          props.setCurrentVideoId(() => {
-                            return `${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`;
-                        });
-                          props.passEmbedUrl(`//www.youtube.com/embed/${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`);
+                          props.modalInfoLoader(index, true, props.searchResultsArray, props.searchResultsArray.length);
+                        //   props.setSearchResultIndex(() => index);
+                        //   props.setIsSearchResult(() => true);
+                        //   props.setCurrentVideoId(() => {
+                        //     return `${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`;
+                        // });
+                        //   props.passEmbedUrl(`//www.youtube.com/embed/${props.searchResultsArray[props.searchResultsArray.length-1]['items'][index]['id']['videoId']}`);
                         }
                       }}>
-                        <img src={
+                        <img 
+                          className='searchResultImage'
+                          src={
                           result.snippet.thumbnails.high.url ?
                             result.snippet.thumbnails.high.url
                         : result.snippet.thumbnails.medium.url ?
@@ -401,8 +424,20 @@ const HideOnScroll = (props: any) => {
                         </Tooltip>
                       </div>
                     })
-                 : null 
+                 :
+                  [...new Array(12)].map(() => {
+                  return (
+                    <div id='search-result-skeleton' style={{display:'flex', width:'100%', margin:'0.75rem 0 0.75rem 0.75rem'}}>
+                      <Skeleton classes={{root:skeletonClasses.root}} variant='rect' height={'5rem'} width={'9rem'}/>
+                        <div style={{width:'100%', marginLeft:'1rem'}}>
+                          <Skeleton style={{flexGrow:1}} className='videoSearchInfo'/>
+                          <Skeleton style={{flexGrow:1}} className='videoSearchInfo'/>
+                        </div>
+                    </div>
+                  );
+                  })
                 }
+
 
                 {/* <div id='searchResultsDrawer'>
                   <img src='../assets/no_thumbnail.jpg'/>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import windowResizer from '../helpers/windowResize';
+import windowResizer from '../helpers/windowResize'
 import {
   Avatar,
   IconButton

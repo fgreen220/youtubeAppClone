@@ -13,7 +13,7 @@ const videoPart = `snippet,contentDetails,player,statistics`;
 const videoChart = `mostPopular`;
 const regionCode = `US`;
 
-const maxResults = 10;
+const maxResults = 12;
 
 app.get('/', (request:any, response:any) => {
   response.json({info:'Youtube API'})

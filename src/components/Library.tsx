@@ -34,6 +34,20 @@ const Library = (props:any) => {
   const [purchasesTooltipOpen, setPurchasesTooltipOpen] = useState<boolean>(false);
   const [watchLaterTooltipOpen, setWatchLaterTooltipOpen] = useState<boolean>(false);
   const [filterTooltipOpen, setFilterTooltipOpen] = useState<boolean>(false);
+  const [addPlaylistTooltipOpen, setAddPlaylistTooltipOpen] = useState<boolean>(false);
+  const [likedVideosTooltipOpen, setLikedVideosTooltipOpen] = useState<boolean>(false);
+  const [homeVideosTooltipOpen, setHomeVideosTooltipOpen] = useState<boolean>(false);
+  const [musicVideosTooltipOpen, setMusicVideosTooltipOpen] = useState<boolean>(false);
+  const [reviewVideosTooltipOpen, setReviewVideosTooltipOpen] = useState<boolean>(false);
+  const [cookingVideosTooltipOpen, setCookingVideosTooltipOpen] = useState<boolean>(false);
+  const [sportsVideosTooltipOpen, setSportsVideosTooltipOpen] = useState<boolean>(false);
+  const [trendingVideosTooltipOpen, setTrendingVideosTooltipOpen] = useState<boolean>(false);
+  const [catVideosTooltipOpen, setCatVideosTooltipOpen] = useState<boolean>(false);
+
+
+
+
+
 
   return (
     <Fragment>
@@ -101,11 +115,10 @@ const Library = (props:any) => {
         <div id='library-bottom'>
           <div id='playlist-filter'>
           <p style={{display:'inline', justifyContent:'space-between'}}>Playlists</p>
-          <Tooltip title='Feature not supported' open={filterTooltipOpen} onOpen={() => null}
+          <Tooltip title='Feature not supported' open={filterTooltipOpen} onOpen={() => setTimeout(() => setFilterTooltipOpen(() => false), 3000)}
             disableFocusListener={true}
-            onClose={() => {
-              setFilterTooltipOpen(() => false);
-          }}
+            disableHoverListener={true}
+            onClose={() => null}
           >
             <FormControl>
               <Select
@@ -120,60 +133,123 @@ const Library = (props:any) => {
             </FormControl>
           </Tooltip>
           </div>
-          <Button
-            variant='contained'
-            startIcon={<Add id='addPlaylistIcon'/>}
+          <Tooltip title='Feature not supported' open={addPlaylistTooltipOpen} onOpen={() => null}
+            onClick={() => setAddPlaylistTooltipOpen(() => true)}
+            onClose={() => {
+              setAddPlaylistTooltipOpen(() => false);
+          }}
           >
-            <p id='newPlaylist'>New playlist</p>
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<ThumbUp />}
+            <Button
+              variant='contained'
+              startIcon={<Add id='addPlaylistIcon'/>}
+            >
+              <p id='newPlaylist'>New playlist</p>
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={likedVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setLikedVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setLikedVideosTooltipOpen(() => false);
+          }}
           >
-            Liked videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<ThumbUp />}
+            >
+              Liked videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={homeVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setHomeVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setHomeVideosTooltipOpen(() => false);
+          }}
           >
-            Home videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Home videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={musicVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setMusicVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setMusicVideosTooltipOpen(() => false);
+          }}
           >
-            Music videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Music videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={reviewVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setReviewVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setReviewVideosTooltipOpen(() => false);
+          }}
           >
-            Review videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Review videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={cookingVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setCookingVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setCookingVideosTooltipOpen(() => false);
+          }}
           >
-            Cooking videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Cooking videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={sportsVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setSportsVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setSportsVideosTooltipOpen(() => false);
+          }}
           >
-            Sports videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Sports videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={trendingVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setTrendingVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setTrendingVideosTooltipOpen(() => false);
+          }}
           >
-            Trending videos
-          </Button>
-          <Button
-            variant='contained'
-            startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Trending videos
+            </Button>
+          </Tooltip>
+          <Tooltip title='Feature not supported' open={catVideosTooltipOpen} onOpen={() => null}
+            onClick={() => setCatVideosTooltipOpen(() => true)}
+            onClose={() => {
+              setCatVideosTooltipOpen(() => false);
+          }}
           >
-            Cat videos
-          </Button>
+            <Button
+              variant='contained'
+              startIcon={<img src='../assets/no_thumbnail.jpg' className='playlistPicture'/>}
+            >
+              Cat videos
+            </Button>
+          </Tooltip>
           <Button
             variant='contained'
             onClick={() => {

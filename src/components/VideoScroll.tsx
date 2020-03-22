@@ -57,6 +57,12 @@ const VideoScroll = (props:any) => {
               <p>VIDEO INFO</p>
             </div>
             :
+            props.page === 'library'
+            && index===16?
+            <div style={{width:'1.25rem'}}>
+              &nbsp;
+            </div>
+            :
             props.page !== 'library'
             && windowWidth < 550 ?
             <div key={index}>

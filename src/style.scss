@@ -420,7 +420,7 @@ button span {
         max-height:40vh;
         min-height:16rem;
         width:100%;
-        img {
+        .videoThumbnail {
           max-height:90%;
           width:100%;
           min-height:calc((100vw/1.7)*0.7);
@@ -468,7 +468,7 @@ button span {
         max-height:40vh;
         width:100%;
         min-height:19rem;
-        img {
+        .videoThumbnail {
           // height:32vh;
           // height:calc((100vw/1.7));
           max-height:90%;
@@ -517,9 +517,9 @@ button span {
         max-height:40vh;
         width:100%;
         min-height:19rem;
-        img {
+        .videoThumbnail {
           // height:32vh;
-          height:calc((100vw/1.7));
+          // height:calc((100vw/1.7));
           max-height:90%;
           width:100%;
           min-height:15rem;
@@ -626,7 +626,7 @@ button span {
   }
   .modal-video-wrapper{
     z-index:10000;
-    iframe {
+    .modal-video {
       height:calc(100vw/1.7);
       max-height:80vh;
       width:100vw;
@@ -849,7 +849,7 @@ button span {
       display:flex;
       margin:0.75rem 0 0.75rem 0.75rem;
       cursor:pointer;
-      img {
+      .searchResultImage {
         margin:0 0.75rem 0 0;
         width:15vw;
         height:calc(15vw/1.7);
@@ -858,7 +858,7 @@ button span {
         p {
           margin:0;
           &:last-child {
-            font-size:0.5rem;
+            font-size:0.75rem;
           }
         }
       }
@@ -891,7 +891,8 @@ button span {
     text-align:center;
   }
   button {
-    background-color:#40c4ff; 
+    background-color:blue; 
+    color:white;
   }
 }
 
@@ -961,5 +962,22 @@ button span {
   }
   .MuiToolbar-root {
     padding:0;
+  }
+}
+
+#no-search-results {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  height:70vh;
+  svg {
+    width:20vw;
+    height:30vh;
+    color:purple;
+  }
+  #no-search-results-title {
+    font-weight:700;
+    font-size:3rem;
   }
 }

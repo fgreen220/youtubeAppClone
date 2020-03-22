@@ -48,6 +48,15 @@ const App = () => {
     setLoadingResults(() => toggleBetween);
   }
 
+  const modalInfoLoader = (index:number, searchResultBool:boolean, searchArray:any, searchLength:number, ) => {
+    setSearchResultIndex(() => index);
+    setIsSearchResult(() => searchResultBool);
+    setCurrentVideoId(() => {
+      return `${searchArray[searchLength-1]['items'][index]['id']['videoId']}`;
+  });
+    passEmbedUrl(`//www.youtube.com/embed/${searchArray[searchLength-1]['items'][index]['id']['videoId']}`);
+  }
+
   useEffect(() => {
     const modalVideoLink = document.querySelectorAll('.modal-link');
     const searchResults = document.querySelectorAll('#searchResultsDrawer');
@@ -65,8 +74,8 @@ const App = () => {
         console.log(currentVideoId, loadingModal, loadingResults);
         console.log(event);
         if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
+          setLoadingModal(() => true)
           setLoadingResults(() => false);
-          setLoadingModal(() => true);
           console.log(currentVideoId, loadingModal, loadingResults)
           modalBg?.classList.add('bg-active');
           modalBg?disableBodyScroll(modalBg):null;
@@ -127,6 +136,7 @@ const App = () => {
       modalBg?enableBodyScroll(modalBg):null;
       topAppBar?.classList.remove('hidden-app-bar');
       bottomNavBar?.classList.remove('hidden-nav-bar');
+      setCurrentVideoUrl(() => '');
       Array(hideIconSmall)[0].forEach(icon => {
         icon.classList.replace('hidden-icon-small','icon-small');
       }
@@ -189,9 +199,11 @@ const App = () => {
     .then(data => {
       data = JSON.parse(data);
       console.log(data);
-      setCommentData(() => [...data.items.map((comment:{[string:string]:{}}) => {
-        return comment.snippet;
-      })])
+      if(data.items){
+        setCommentData(() => [...data.items.map((comment:{[string:string]:{}}) => {
+          return comment.snippet;
+        })])
+      }
     })
     :null
   }, [currentVideoUrl])
@@ -213,6 +225,7 @@ const App = () => {
         loadingResultsHandler={loadingResultsHandler}
         currentVideoId={currentVideoId}
         loadingModal={loadingModal}
+        modalInfoLoader={modalInfoLoader}
       />
       <BottomNav 
         setVideoId={setVideoId}
