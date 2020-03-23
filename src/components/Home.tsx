@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, Fragment} from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 import { AccountCircle, MoreVert } from '@material-ui/icons';
 import windowResizer from '../helpers/windowResize';
 import { Skeleton } from '@material-ui/lab';
@@ -31,6 +31,12 @@ const HomeView = (props:any) => {
     default:
       sizeClass='video-tiles-3'
   }
+
+  const [accountCircleTooltipOpen, setAccountCircleTooltipOpen] = useState<boolean>(false);
+  const [accountCircleId, setAccountCircleId] = useState<number>(-1);
+  const [ellipsisTooltipOpen, setEllipsisTooltipOpen] = useState<boolean>(false);
+  const [ellipsisId, setEllipsisId] = useState<number>(-1);
+
   return (
     <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
       {props.videoData.map((item:any, index:number) => {
@@ -47,17 +53,42 @@ const HomeView = (props:any) => {
         // }
         return (
           props.videoData.length !== index+1 ?
-            <div className={`${sizeClass} modal-link`} key={index} onClick={() => props.passEmbedUrl(props.urlObject[index])}>
+            <div className={`${sizeClass} modal-link`} key={index}
+            onClick={() => props.passEmbedUrl(props.urlObject[index], props.videoData[index])}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img className='videoThumbnail' src={`${item}`} />
               <div className='video-tile-info-container'>
-                <IconButton>
-                  <AccountCircle className='video-tile-account-circle'/>
-                </IconButton>
+                <Tooltip title='Feature not supported' open={accountCircleId === index ? accountCircleTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setAccountCircleTooltipOpen(() => false);
+                  }
+                }>
+                  <IconButton onClick={() => {
+                    setAccountCircleId(() => index);
+                    setAccountCircleTooltipOpen(() => true);
+                    }
+                  }>
+                    <AccountCircle className='video-tile-account-circle'/>
+                  </IconButton>
+                </Tooltip>
                 <div className='info-text-wrapper'>
                   <p id='video-info'>{props.videoTitle[index]}</p>
                 </div>
-                <IconButton><MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/></IconButton>
+                <Tooltip title='Feature not supported' open={ellipsisId === index ? ellipsisTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setEllipsisTooltipOpen(() => false);
+                  }
+                }>
+                  <IconButton onClick={() => {
+                      setEllipsisId(() => index);
+                      setEllipsisTooltipOpen(() => true);
+                    }
+                  }>
+                    <MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/>
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
           :
@@ -65,13 +96,37 @@ const HomeView = (props:any) => {
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img className='videoThumbnail' src={`${item}`} />
               <div className='video-tile-info-container'>
-                <IconButton>
-                  <AccountCircle className='video-tile-account-circle'/>
-                </IconButton>
+                <Tooltip title='Feature not supported' open={accountCircleId === index ? accountCircleTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setAccountCircleTooltipOpen(() => false);
+                  }
+                }>
+                  <IconButton onClick={() => {
+                    setAccountCircleId(() => index);
+                    setAccountCircleTooltipOpen(() => true);
+                    }
+                  }>
+                    <AccountCircle className='video-tile-account-circle'/>
+                  </IconButton>
+                </Tooltip>
                 <div className='info-text-wrapper'>
                   <p id='video-info'>{props.videoTitle[index]}</p>
                 </div>
-                <IconButton><MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/></IconButton>
+                <Tooltip title='Feature not supported' open={ellipsisId === index ? ellipsisTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setEllipsisTooltipOpen(() => false);
+                  }
+                }>
+                  <IconButton onClick={() => {
+                    setEllipsisId(() => index);
+                    setEllipsisTooltipOpen(() => true);
+                    }
+                  }>
+                        <MoreVert className='ellipsis-menu ellipsis-menu-placeholder'/>
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
         )

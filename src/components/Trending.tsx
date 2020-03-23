@@ -3,7 +3,7 @@ import IconScroll from './IconScroll';
 import VideoScroll from './VideoScroll';
 import windowResizer from '../helpers/windowResize';
 import { AccountCircle, MoreVert } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 const Trending = (props:any) => {
@@ -38,10 +38,9 @@ const Trending = (props:any) => {
     })
     if(node) observer.current.observe(node)
   }, [props.trendingCategoryPage, props.loading, props.hasMore[props.trendingCategoryPage]]);
-  const [displayedArray, setDisplayedArray]:any = useState([]);
   useEffect(() => {
-    if(setDisplayedArray(props.trendingVideoData)){
-      setDisplayedArray((props.trendingVideoData[props.trendingCategoryPage]));
+    if(props.setDisplayedArray(props.trendingVideoData)){
+      props.setDisplayedArray((props.trendingVideoData[props.trendingCategoryPage]));
     }
   },[props.trendingVideoData, props.trendingCategoryPage])
 
@@ -57,38 +56,101 @@ const Trending = (props:any) => {
       sizeClass='video-tiles-3'
   }
 
+  const [accountCircleTooltipOpen, setAccountCircleTooltipOpen] = useState<boolean>(false);
+  const [accountCircleId, setAccountCircleId] = useState<number>(-1);
+  const [ellipsisTooltipOpen, setEllipsisTooltipOpen] = useState<boolean>(false);
+  const [ellipsisId, setEllipsisId] = useState<number>(-1);
+
   return(
     <Fragment>
       <IconScroll categoryListObject={props.categoryListObject} trendingCategoryHandler={trendingCategoryHandler} page='trending' loading={props.loading}/>
       <div className='video-tiles' style={{gridTemplateColumns:windowWidth<=1100 && windowWidth>550?'1fr 1fr':'1fr 1fr 1fr'}}>
-      {displayedArray[props.trendingCategoryPage]?.map((item:any, index:number) => {
+      {props.displayedArray[props.trendingCategoryPage]?.map((item:any, index:number) => {
         return (
-          displayedArray[props.trendingCategoryPage]?.length !== index+1 ?
+          props.displayedArray[props.trendingCategoryPage]?.length !== index+1 ?
               <div className={`${sizeClass} modal-link`}
               key={`withoutLastElementRef-${index}`}
-              onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
+              onClick={() => {
+                props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index], item);
+                props.setTrendingLinkIndex(() => index);
+                props.setIsTrending(() => true);
+                }}>
                 {/* ['snippet']['thumbnails']['maxres']['url'] */}
                 <img className='videoThumbnail' src={`${item}`} />
                 <div className='video-tile-info-container'>
-                  <IconButton>
+                <Tooltip title='Feature not supported' open={accountCircleId === index ? accountCircleTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setAccountCircleTooltipOpen(() => false);
+                  }
+                }>
+                  <IconButton onClick={() => {
+                    setAccountCircleId(() => index);
+                    setAccountCircleTooltipOpen(() => true);
+                    }
+                  }>
                     <AccountCircle className='video-tile-account-circle'/>
                   </IconButton>
-                  <p id='video-info'>INFO CONTAINER</p>
-                  <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
+                </Tooltip>
+                  <div className='info-text-wrapper'>
+                    <p id='video-info'>{props.trendingVideoCollection[props.trendingCategoryPage][index]['snippet']['title']}</p>
+                  </div>
+                  <Tooltip title='Feature not supported' open={ellipsisId === index ? ellipsisTooltipOpen : false}
+                    onOpen={() => null}
+                    onClose={() => {
+                      setEllipsisTooltipOpen(() => false);
+                    }
+                  }>
+                    <IconButton onClick={() => {
+                      setEllipsisId(() => index);
+                      setEllipsisTooltipOpen(() => true);
+                      }
+                    }>
+                        <MoreVert className='ellipsis-menu'/>
+                    </IconButton>
+                  </Tooltip>
                 </div>
               </div>
           :
             <div className={`${sizeClass} modal-link`}
             key={`withLastElementRef-${index}`} ref={lastVideoElementRef}
-            onClick={() => props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index])}>
+            onClick={() => {
+              props.passEmbedUrl(props.urlTrendingObject[props.trendingCategoryPage][index], item);
+              props.setTrendingLinkIndex(() => index);
+              props.setIsTrending(() => true);
+            }}>
               {/* ['snippet']['thumbnails']['maxres']['url'] */}
               <img className='videoThumbnail' src={`${item}`} />
               <div className='video-tile-info-container'>
-                <IconButton>
+              <Tooltip title='Feature not supported' open={accountCircleId === index ? accountCircleTooltipOpen : false}
+                onOpen={() => null}
+                onClose={() => {
+                  setAccountCircleTooltipOpen(() => false);
+              }}
+              >
+                <IconButton onClick={() => {
+                  setAccountCircleId(() => index);
+                  setAccountCircleTooltipOpen(() => true);
+                  }}>
                   <AccountCircle className='video-tile-account-circle'/>
                 </IconButton>
-                <p id='video-info'>INFO CONTAINER</p>
-                <IconButton><MoreVert className='ellipsis-menu'/></IconButton>
+              </Tooltip>
+                <div className='info-text-wrapper'>
+                  <p id='video-info'>{props.trendingVideoCollection[props.trendingCategoryPage][index]['snippet']['title']}</p>
+                </div>
+                <Tooltip title='Feature not supported' open={ellipsisId === index ? ellipsisTooltipOpen : false}
+                  onOpen={() => null}
+                  onClose={() => {
+                    setEllipsisTooltipOpen(() => false);
+                }}
+                >
+                  <IconButton onClick={() => {
+                  setEllipsisId(() => index);
+                  setEllipsisTooltipOpen(() => true);
+                  }}>
+                    <MoreVert className='ellipsis-menu'/>
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
         )

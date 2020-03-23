@@ -80,7 +80,6 @@ const commentParts = 'snippet,replies';
 
 app.get('/comments', (request:any, response:any) => {
   const { videoid } = request.headers;
-  console.log(videoid);
   https.get(`https://www.googleapis.com/youtube/v3/commentThreads?part=${commentParts}&videoId=${videoid}&order=relevance&key=${config.YT_KEY}`, (resp:any) => {
     let data = '';
 
@@ -100,8 +99,7 @@ app.get('/comments', (request:any, response:any) => {
 app.get('/search', (request:any, response:any) => {
   const { searchquery } = request.headers;
   const part = 'snippet';
-  const hardcodeQuery = 'reactjs';
-  https.get(`https://www.googleapis.com/youtube/v3/search?part=${part}&q=${searchquery}&type=video&key=${config.YT_KEY}`, (resp:any) => {
+  https.get(`https://www.googleapis.com/youtube/v3/search?part=${part}&q=${searchquery}&type=video&maxResults=50&key=${config.YT_KEY}`, (resp:any) => {
     let data = '';
 
     resp.on('data', (chunk:any) => {

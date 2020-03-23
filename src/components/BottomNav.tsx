@@ -76,12 +76,6 @@ export default function BottomNav(props: any) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pageTokens, setPageTokens] = useState([]);
   const [nextPage, setNextPage] = useState('');
-  const [videoData, setVideoData]  = useState([]);
-  const [trendingPageTokens, setTrendingPageTokens] = useState({});
-  const [trendingNextPage, setTrendingNextPage] = useState({});
-  const [trendingVideoData, setTrendingVideoData]  = useState({});
-  const [trendingCategoryPage, setTrendingCategoryPage] = useState('1');
-  const [urlTrendingObject, setUrlTrendingObject] = useState({});
   // const loading = true;
   // const error = false;
   // const hasMore = false;
@@ -90,17 +84,18 @@ export default function BottomNav(props: any) {
     error,
     hasMore
   } = useVideoSearch(
-    selectedButton==='/trending'?trendingNextPage:nextPage,
-    selectedButton==='/trending'?setTrendingPageTokens:setPageTokens,
-    selectedButton==='/trending'?trendingPageTokens:pageTokens,
-    selectedButton==='/trending'?setTrendingVideoData:setVideoData,
+    selectedButton==='/trending'?props.trendingNextPage:nextPage,
+    selectedButton==='/trending'?props.setTrendingPageTokens:setPageTokens,
+    selectedButton==='/trending'?props.trendingPageTokens:pageTokens,
+    selectedButton==='/trending'?props.setTrendingVideoData:props.setVideoData,
     selectedButton,
-    trendingCategoryPage,
-    selectedButton==='/trending'?setUrlTrendingObject:props.setUrlObject,
+    props.trendingCategoryPage,
+    selectedButton==='/trending'?props.setUrlTrendingObject:props.setUrlObject,
     props.setVideoTitle,
     props.setVideoStatistics,
     props.setVideoDescription,
-    props.setVideoId);
+    props.setVideoId,
+    props.setTrendingVideoCollection);
 
   selectedButtonHandler('#bottomNav a', 'Mui-selected');
 
@@ -128,9 +123,12 @@ export default function BottomNav(props: any) {
             searchResultsArray={props.searchResultsArray}
             searchResultIndex={props.searchResultIndex}
             setSearchResultIndex={props.setSearchResultIndex}
+            currentVideoImage={props.currentVideoImage}
+            setIsIframeLoaded={props.setIsIframeLoaded}
+            isIframeLoaded={props.isIframeLoaded}
           />
             <HomeView 
-              videoData={videoData}
+              videoData={props.videoData}
               loading={loading}
               error={error}
               setNextPage={setNextPage}
@@ -162,22 +160,35 @@ export default function BottomNav(props: any) {
             searchResultsArray={props.searchResultsArray}
             searchResultIndex={props.searchResultIndex}
             setSearchResultIndex={props.setSearchResultIndex}
+            currentVideoImage={props.currentVideoImage}
+            setIsIframeLoaded={props.setIsIframeLoaded}
+            isIframeLoaded={props.isIframeLoaded}
+            trendingVideoCollection={props.trendingVideoCollection}
+            isTrending={props.isTrending}
+            trendingLinkIndex={props.trendingLinkIndex}
+            trendingCategoryPage={props.trendingCategoryPage}
+            setIsTrending={props.setIsTrending}
           />
           <Trending 
-            trendingVideoData={trendingVideoData}
+            trendingVideoData={props.trendingVideoData}
             loading={loading}
             error={error}
-            setTrendingNextPage={setTrendingNextPage}
-            trendingPageTokens={trendingPageTokens}
+            setTrendingNextPage={props.setTrendingNextPage}
+            trendingPageTokens={props.trendingPageTokens}
             hasMore={hasMore}
             categoryListObject={categoryListObject}
-            setTrendingCategoryPage={setTrendingCategoryPage}
-            trendingCategoryPage={trendingCategoryPage}
-            trendingNextPage={trendingNextPage}
-            urlTrendingObject={urlTrendingObject}
+            setTrendingCategoryPage={props.setTrendingCategoryPage}
+            trendingCategoryPage={props.trendingCategoryPage}
+            trendingNextPage={props.trendingNextPage}
+            urlTrendingObject={props.urlTrendingObject}
             passEmbedUrl={props.passEmbedUrl}
             isSearchResult={props.isSearchResult}
             setIsSearchResult={props.setIsSearchResult}
+            trendingVideoCollection={props.trendingVideoCollection}
+            displayedArray={props.displayedArray}
+            setDisplayedArray={props.setDisplayedArray}
+            setIsTrending={props.setIsTrending}
+            setTrendingLinkIndex={props.setTrendingLinkIndex}
           />
         </Route>
         <Route path='/subscriptions'>
@@ -198,6 +209,9 @@ export default function BottomNav(props: any) {
             searchResultsArray={props.searchResultsArray}
             searchResultIndex={props.searchResultIndex}
             setSearchResultIndex={props.setSearchResultIndex}
+            currentVideoImage={props.currentVideoImage}
+            setIsIframeLoaded={props.setIsIframeLoaded}
+            isIframeLoaded={props.isIframeLoaded}
           />
           <SubscriptionsView isLoggedIn={isLoggedIn}/>
         </Route>
@@ -219,6 +233,9 @@ export default function BottomNav(props: any) {
             searchResultsArray={props.searchResultsArray}
             searchResultIndex={props.searchResultIndex}
             setSearchResultIndex={props.setSearchResultIndex}
+            currentVideoImage={props.currentVideoImage}
+            setIsIframeLoaded={props.setIsIframeLoaded}
+            isIframeLoaded={props.isIframeLoaded}
           />
           <Inbox isLoggedIn={isLoggedIn}/>
         </Route>
@@ -240,6 +257,9 @@ export default function BottomNav(props: any) {
             searchResultsArray={props.searchResultsArray}
             searchResultIndex={props.searchResultIndex}
             setSearchResultIndex={props.setSearchResultIndex}
+            currentVideoImage={props.currentVideoImage}
+            setIsIframeLoaded={props.setIsIframeLoaded}
+            isIframeLoaded={props.isIframeLoaded}
           />
           <Library isLoggedIn={isLoggedIn}/>
         </Route>
@@ -249,7 +269,7 @@ export default function BottomNav(props: any) {
         id='bottomNav'
         value={value}
         onChange={(event, newValue) => {
-          console.log(newValue);
+          props.setNavigationPage(() => newValue);
           setValue(newValue);
         }}
         showLabels

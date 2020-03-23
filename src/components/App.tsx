@@ -30,9 +30,23 @@ const App = () => {
   const [searchResultIndex, setSearchResultIndex] = useState<number>(-1);
   const [loadingModal, setLoadingModal] = useState<boolean>(false);
   const [loadingResults, setLoadingResults] = useState<boolean>(false);
+  const [trendingCategoryPage, setTrendingCategoryPage] = useState<any>('1');
+  const [trendingVideoCollection, setTrendingVideoCollection] = useState<{[key:string]:any}[]>([]);
+  const [trendingPageTokens, setTrendingPageTokens] = useState({});
+  const [trendingNextPage, setTrendingNextPage] = useState({});
+  const [trendingVideoData, setTrendingVideoData] = useState({});
+  const [urlTrendingObject, setUrlTrendingObject] = useState({});
+  const [displayedArray, setDisplayedArray]:any = useState([]);
+  const [videoData, setVideoData]  = useState([]);
+  const [currentVideoImage, setCurrentVideoImage] = useState<string>('');
+  const [isIframeLoaded, setIsIframeLoaded] = useState<boolean>(false);
+  const [isTrending, setIsTrending] = useState<boolean>(false);
+  const [trendingLinkIndex, setTrendingLinkIndex] = useState<number>(-1);
+  const [navigationPage, setNavigationPage] = useState<number>(-1);
   
 
-  const passEmbedUrl = async (urlString:string) => {
+  const passEmbedUrl = async (urlString:string, imgLink:string) => {
+    await setCurrentVideoImage(() => imgLink)
     await setCurrentVideoUrl(() => urlString);
   }
 
@@ -48,13 +62,13 @@ const App = () => {
     setLoadingResults(() => toggleBetween);
   }
 
-  const modalInfoLoader = (index:number, searchResultBool:boolean, searchArray:any, searchLength:number, ) => {
+  const modalInfoLoader = (index:number, searchResultBool:boolean, searchArray:any, searchLength:number, imgLink:string) => {
     setSearchResultIndex(() => index);
     setIsSearchResult(() => searchResultBool);
     setCurrentVideoId(() => {
       return `${searchArray[searchLength-1]['items'][index]['id']['videoId']}`;
   });
-    passEmbedUrl(`//www.youtube.com/embed/${searchArray[searchLength-1]['items'][index]['id']['videoId']}`);
+    passEmbedUrl(`//www.youtube.com/embed/${searchArray[searchLength-1]['items'][index]['id']['videoId']}`, imgLink);
   }
 
   useEffect(() => {
@@ -71,12 +85,9 @@ const App = () => {
     const bgActive = document.querySelector('.bg-active');
 
     const addBg = (event:any) => {
-        console.log(currentVideoId, loadingModal, loadingResults);
-        console.log(event);
         if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
           setLoadingModal(() => true)
           setLoadingResults(() => false);
-          console.log(currentVideoId, loadingModal, loadingResults)
           modalBg?.classList.add('bg-active');
           modalBg?disableBodyScroll(modalBg):null;
           topAppBar?.classList.add('hidden-app-bar');
@@ -131,6 +142,7 @@ const App = () => {
   
     const removeBg = () => {
       // setLoadingModal(() => false);
+      setIsIframeLoaded(() => false);
       setLoadingModal(() => false);
       modalBg?.classList.remove('bg-active');
       modalBg?enableBodyScroll(modalBg):null;
@@ -161,38 +173,50 @@ const App = () => {
       modalClose?.removeEventListener('click', removeBg);
       modalBg? modalBg.scrollTop = 0:null;
     })
-  }, [currentVideoUrl, currentVideoId, loadingModal])
+  }, [currentVideoUrl, loadingModal])
+
+  // useEffect(() => {
+  //   if(currentVideoId.length >= 1 && loadingModal) {
+  //     setCommentLoading(() => true);
+  //     fetch('http://localhost:3000/comments', {
+  //       method:'get',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'videoid': `${currentVideoId}`
+  //       }
+  //     })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       data = JSON.parse(data);
+  //       console.log(data);
+  //       setCommentData((prevComments:[{}]) => [...data.items.map((comment:{[string:string]:{}}) => {
+  //         return comment.snippet;
+  //       })])
+  //       setTimeout(() => setCommentLoading(() => false), 3000);
+  //     })
+  //   }
+  // }, [currentVideoId])
 
   useEffect(() => {
-    if(currentVideoId.length >= 1 && loadingModal) {
-      setCommentLoading(() => true);
-      fetch('http://localhost:3000/comments', {
-        method:'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'videoid': `${currentVideoId}`
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        data = JSON.parse(data);
-        console.log(data);
-        setCommentData((prevComments:[{}]) => [...data.items.map((comment:{[string:string]:{}}) => {
-          return comment.snippet;
-        })])
-        setTimeout(() => setCommentLoading(() => false), 3000);
-      })
-    }
-  }, [currentVideoId])
+    // console.log(currentVideoUrl.length >= 1 && loadingModal &&
+    //   ((isTrending && displayedArray[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1) ||
+    //   (videoId[urlObject.indexOf(currentVideoUrl)]?.length >= 1)));
+    // console.log((isTrending && displayedArray[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1));
+    trendingVideoCollection.length >= 1 ? 
+    console.log(trendingVideoCollection[trendingCategoryPage][trendingLinkIndex]['id'])
+    : console.log('less than 1');
 
-  useEffect(() => {
-    currentVideoUrl.length >= 1 &&
-    videoId[urlObject.indexOf(currentVideoUrl)] && loadingModal?
+    currentVideoUrl.length >= 1 && loadingModal &&
+    (isTrending && trendingVideoCollection[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1 ||
+    videoId[urlObject.indexOf(currentVideoUrl)]?.length >= 1 || isSearchResult &&
+    searchResultsArray[searchResultsArray.length - 1]['items'][searchResultIndex]['id']['videoId'].length >= 1) ?
     fetch('http://localhost:3000/comments', {
       method:'get',
       headers: {
         'Content-Type': 'application/json',
-        'videoid': `${videoId[urlObject.indexOf(currentVideoUrl)]}`
+        'videoid': `${isTrending ? trendingVideoCollection[trendingCategoryPage][trendingLinkIndex]['id'] : 
+        isSearchResult ? searchResultsArray[searchResultsArray.length - 1]['items'][searchResultIndex]['id']['videoId']
+        : videoId[urlObject.indexOf(currentVideoUrl)]}`
       }
     })
     .then(response => response.json())
@@ -251,6 +275,30 @@ const App = () => {
         searchResultsArray={searchResultsArray}
         searchResultIndex={searchResultIndex}
         setSearchResultIndex={setSearchResultIndex}
+        trendingCategoryPage={trendingCategoryPage}
+        setTrendingCategoryPage={setTrendingCategoryPage}
+        trendingVideoCollection={trendingVideoCollection}
+        setTrendingVideoCollection={setTrendingVideoCollection}
+        trendingPageTokens={trendingPageTokens}
+        setTrendingPageTokens={setTrendingPageTokens}
+        trendingNextPage={trendingNextPage}
+        setTrendingNextPage={setTrendingNextPage}
+        trendingVideoData={trendingVideoData}
+        setTrendingVideoData={setTrendingVideoData}
+        urlTrendingObject={urlTrendingObject}
+        setUrlTrendingObject={setUrlTrendingObject}
+        displayedArray={displayedArray}
+        setDisplayedArray={setDisplayedArray}
+        videoData={videoData}
+        setVideoData={setVideoData}
+        currentVideoImage={currentVideoImage}
+        setIsIframeLoaded={setIsIframeLoaded}
+        isIframeLoaded={isIframeLoaded}
+        trendingLinkIndex={trendingLinkIndex}
+        setTrendingLinkIndex={setTrendingLinkIndex}
+        isTrending={isTrending}
+        setIsTrending={setIsTrending}
+        setNavigationPage={setNavigationPage}
       />
 
     </Fragment>

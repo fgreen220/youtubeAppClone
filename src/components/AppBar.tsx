@@ -266,10 +266,11 @@ const skeletonStyles = makeStyles({
                   }
                   props.loadingResultsHandler(false);
               }}>
-                <TextField inputRef={searchRef} autoFocus={true} id='videoSearchBar' placeholder='Video Search' 
+                <TextField inputRef={searchRef} autoFocus={true} id='videoSearchBar'
+                  value={searchRef.current ? searchRef.current.value : videoSearchQuery} placeholder='Video Search' 
                   onChange={(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                     event.persist();
-                    event.target?.value !== ''? setVideoSearchQuery(() => event.target?.value):null;
+                    setVideoSearchQuery(() => event.target?.value);
                   }
                 } />
                 <Tooltip title='Enter search query' open={searchTooltipOpen} onOpen={() => null}
@@ -294,7 +295,7 @@ const skeletonStyles = makeStyles({
                     setVideoSearchQuery(() => event.target.innerText);
                     setSearchOpen(() => false);
                     setSearchResultsDisplay(() => true);
-                    videoSearchQuery !== '' ? searchHandler(videoSearchQuery): null;
+                    videoSearchQuery !== '' ? searchHandler(event.target.innerText): null;
                   }
               }
             }>
@@ -330,10 +331,13 @@ const skeletonStyles = makeStyles({
               }}
             >
               <form autoComplete="off" id='searchResultsBar'>
-                <IconButton onClick={() => setSearchResultsDisplay(() => false)}>
+                <IconButton onClick={() => {
+                  setSearchResultsDisplay(() => false);
+                  props.setIsSearchResult(() => false);
+                }}>
                   <ArrowBack />
                 </IconButton>
-                <TextField value={videoSearchQuery !== ''?`${videoSearchQuery}`:''} id='videoSearchResultsBar'
+                <TextField value={videoSearchQuery !== ''?`${videoSearchQuery}`:'5'} id='videoSearchResultsBar'
                  onFocus={() => {
                    setSearchResultsDisplay(() => false);
                    setSearchOpen(() => true);
@@ -341,6 +345,7 @@ const skeletonStyles = makeStyles({
                 <div id='searchResultButtonGroup'>
                   <IconButton onClick={() => {
                     setSearchResultsDisplay(() => false);
+                    props.setIsSearchResult(() => false);
                     setSearchOpen(() => true);
                     searchRef.current.value = '';
                     }
@@ -385,7 +390,10 @@ const skeletonStyles = makeStyles({
                         console.log(event.target.id, event.target.tagName);
                         if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
                           console.log(event);
-                          props.modalInfoLoader(index, true, props.searchResultsArray, props.searchResultsArray.length);
+                          props.modalInfoLoader(index, true, props.searchResultsArray, props.searchResultsArray.length,                           result.snippet.thumbnails.high.url ?
+                            result.snippet.thumbnails.high.url : result.snippet.thumbnails.medium.url ?
+                            result.snippet.thumbnails.medium.url : result.snippet.thumbnails.default.url ?
+                            result.snippet.thumbnails.default.url : '../assets/no_thumbnail.jpg');
                         //   props.setSearchResultIndex(() => index);
                         //   props.setIsSearchResult(() => true);
                         //   props.setCurrentVideoId(() => {
@@ -425,9 +433,9 @@ const skeletonStyles = makeStyles({
                       </div>
                     })
                  :
-                  [...new Array(12)].map(() => {
+                  [...new Array(12)].map((item:any, index:number) => {
                   return (
-                    <div id='search-result-skeleton' style={{display:'flex', width:'100%', margin:'0.75rem 0 0.75rem 0.75rem'}}>
+                    <div id='search-result-skeleton' key={`Skeleton-${index}`} style={{display:'flex', width:'100%', margin:'0.75rem 0 0.75rem 0.75rem'}}>
                       <Skeleton classes={{root:skeletonClasses.root}} variant='rect' height={'5rem'} width={'9rem'}/>
                         <div style={{width:'100%', marginLeft:'1rem'}}>
                           <Skeleton style={{flexGrow:1}} className='videoSearchInfo'/>
@@ -466,6 +474,7 @@ const skeletonStyles = makeStyles({
             <IconButton 
               onClick={() => {
                 setSearchOpen(() => true);
+                props.setIsSearchResult(() => false);
               }
             }>
               <Search />

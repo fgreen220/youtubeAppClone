@@ -27,7 +27,8 @@ const useVideoSearch = (
     };
 } | undefined>>,
   videoDescSetter: React.Dispatch<React.SetStateAction<string[]>>,
-  videoIdSetter: React.Dispatch<React.SetStateAction<string[]>>
+  videoIdSetter: React.Dispatch<React.SetStateAction<string[]>>,
+  trendingObjectSetter:React.Dispatch<React.SetStateAction<{}[]>>
   ) => {
 
   const [loading, setLoading] = useState(true);
@@ -140,6 +141,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -255,6 +266,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -368,6 +389,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -481,6 +512,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -594,6 +635,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -707,6 +758,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -820,6 +881,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -933,6 +1004,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -1046,6 +1127,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?
@@ -1160,6 +1251,16 @@ const useVideoSearch = (
       .then((data:any) => {
         data = JSON.parse(data);
         console.log(data);
+        trendingObjectSetter((prevCollection:any) => {
+          return(
+            prevCollection[trendingCategoryPage] ?
+            {...prevCollection, [trendingCategoryPage]: [
+              ...prevCollection[trendingCategoryPage], ...data.items
+            ]}
+            :
+            {...prevCollection, [trendingCategoryPage]: [...data.items]}
+          );
+        });
         stateFunction((prevVideos:any) => {
           return (
             prevVideos[trendingCategoryPage] ?

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {   
   Button,
   ExpansionPanel,
@@ -79,11 +79,30 @@ const ModalOverlay = (props:any) => {
     <div className='modal-bg' >
     <div className='modal'>
       <div className={'modal-video-wrapper modal-wrapper'}>
-        {props.currentVideoUrl === '' ?
-          <Skeleton variant='rect' className='modal-video'/>
+        {
+        !props.isIframeLoaded ?
+          // <Skeleton variant='rect' className='modal-video'/>
+          // <img src={props.currentVideoImage} className='modal-video' />
+          <div style={{backgroundImage:`url(${props.currentVideoImage})`, backgroundSize:'cover', display:'flex'}} id='modal-video'>
+            <div style={{alignSelf:'center'}} className='spinner5'></div>
+          </div>
         :
-         <iframe className='modal-video' width="480px" height="270px" src={props.currentVideoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-         }
+        <iframe 
+          style={{backgroundImage:`url(${props.currentVideoImage})`, backgroundSize:'cover'}}
+          id='modal-video' width="480px" height="270px" src={`${props.currentVideoUrl}`} frameBorder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+        </iframe>
+        }
+        {
+          !props.isIframeLoaded ?
+            <iframe style={{visibility:'hidden'}} onLoad={() => props.currentVideoUrl !== ''? props.setIsIframeLoaded(() => true): null}
+              width="0px" height="0px" src={props.currentVideoUrl} frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+            </iframe>
+          :
+          null
+        }
+      
         <ExpansionPanel defaultExpanded={false} expanded={expansionPanelOpen} classes={{root:expansionPanelClasses.root}} 
         onChange={(event:any, expanded:boolean) => {
           event.persist();
@@ -98,7 +117,8 @@ const ModalOverlay = (props:any) => {
           >
           <p>{props.isSearchResult ? 
           convertEntities(props.searchResultsArray[props.searchResultsArray.length-1]['items'][props.searchResultIndex]['snippet']['title'])
-          : props.videoTitle[props.urlObject.indexOf(props.currentVideoUrl)]}
+          : props.isTrending ? convertEntities(props.trendingVideoCollection[props.trendingCategoryPage][props.trendingLinkIndex]['snippet']['title'])
+          : convertEntities(props.videoTitle[props.urlObject.indexOf(props.currentVideoUrl)])}
           </p>
           <div>
           <Tooltip title='Feature not supported' open={likeTooltipOpen} onOpen={() => null}
@@ -165,6 +185,11 @@ const ModalOverlay = (props:any) => {
             id='modal-close'
             variant='contained'
             startIcon={<Clear />}
+            onClick={() => {
+              if(props.isTrending) {
+                props.setIsTrending(() => false);
+              }
+            }}
           >
             <p>Close</p>
           </Button>                                                                          
@@ -173,8 +198,9 @@ const ModalOverlay = (props:any) => {
           <ExpansionPanelDetails>
             <p>
               {props.isSearchResult ? 
-              props.searchResultsArray[props.searchResultsArray.length-1]['items'][props.searchResultIndex]['snippet']['description']
-              : props.videoDescription?props.videoDescription[props.urlObject.indexOf(props.currentVideoUrl)]:null}
+              convertEntities(props.searchResultsArray[props.searchResultsArray.length-1]['items'][props.searchResultIndex]['snippet']['description'])
+              : props.isTrending ? convertEntities(props.trendingVideoCollection[props.trendingCategoryPage][props.trendingLinkIndex]['snippet']['description'])
+              : props.videoDescription ? convertEntities(props.videoDescription[props.urlObject.indexOf(props.currentVideoUrl)]):null}
             </p>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -223,7 +249,7 @@ const ModalOverlay = (props:any) => {
                       comment.topLevelComment.snippet.updatedAt
                     ) === 0?comment.topLevelComment.snippet.publishedAt.match(/[\d\d\d\d-\d\d-\d\d]+/):
                     `${comment.topLevelComment.snippet.updatedAt.match(/[\d\d\d\d-\d\d-\d\d]+/)} (edited)`}</p>                   
-                    <p>{comment.topLevelComment.snippet.textOriginal}</p>
+                    <p>{convertEntities(comment.topLevelComment.snippet.textOriginal)}</p>
                     <div id='comment-actions'>
                     <Tooltip title='Feature not supported' open={commentLikeId === index ? commentLikeTooltipOpen: false}
                       onOpen={() => null}
