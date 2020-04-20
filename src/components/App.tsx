@@ -114,7 +114,6 @@ const App = () => {
     Array(modalVideoLink)[0].forEach(video => {
       video.addEventListener('click', addBg);
     })
-    console.log('addBg UseEffect triggered')
     Array(searchResults)[0].forEach(result => {
       result.addEventListener('click', addBg);
     })
@@ -175,37 +174,7 @@ const App = () => {
     })
   }, [currentVideoUrl, loadingModal])
 
-  // useEffect(() => {
-  //   if(currentVideoId.length >= 1 && loadingModal) {
-  //     setCommentLoading(() => true);
-  //     fetch('http://localhost:3000/comments', {
-  //       method:'get',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'videoid': `${currentVideoId}`
-  //       }
-  //     })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       data = JSON.parse(data);
-  //       console.log(data);
-  //       setCommentData((prevComments:[{}]) => [...data.items.map((comment:{[string:string]:{}}) => {
-  //         return comment.snippet;
-  //       })])
-  //       setTimeout(() => setCommentLoading(() => false), 3000);
-  //     })
-  //   }
-  // }, [currentVideoId])
-
   useEffect(() => {
-    // console.log(currentVideoUrl.length >= 1 && loadingModal &&
-    //   ((isTrending && displayedArray[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1) ||
-    //   (videoId[urlObject.indexOf(currentVideoUrl)]?.length >= 1)));
-    // console.log((isTrending && displayedArray[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1));
-    trendingVideoCollection.length >= 1 ? 
-    console.log(trendingVideoCollection[trendingCategoryPage][trendingLinkIndex]['id'])
-    : console.log('less than 1');
-
     currentVideoUrl.length >= 1 && loadingModal &&
     (isTrending && trendingVideoCollection[trendingCategoryPage][trendingLinkIndex]['id']?.length >= 1 ||
     videoId[urlObject.indexOf(currentVideoUrl)]?.length >= 1 || isSearchResult &&
@@ -222,7 +191,6 @@ const App = () => {
     .then(response => response.json())
     .then(data => {
       data = JSON.parse(data);
-      console.log(data);
       if(data.items){
         setCommentData(() => [...data.items.map((comment:{[string:string]:{}}) => {
           return comment.snippet;

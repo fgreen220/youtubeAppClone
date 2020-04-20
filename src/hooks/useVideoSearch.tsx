@@ -50,7 +50,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         stateFunction((prevVideos:any) => {
           return [...new Set([...prevVideos, ...data.items.map((video:any) => {
             return(video['snippet']['thumbnails']['maxres'] ?
@@ -140,7 +139,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -265,7 +263,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -388,7 +385,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -511,7 +507,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -634,7 +629,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -757,7 +751,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -880,7 +873,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -1003,7 +995,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -1126,7 +1117,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?
@@ -1250,7 +1240,6 @@ const useVideoSearch = (
       .then(response => response.json())
       .then((data:any) => {
         data = JSON.parse(data);
-        console.log(data);
         trendingObjectSetter((prevCollection:any) => {
           return(
             prevCollection[trendingCategoryPage] ?

@@ -13,7 +13,6 @@ const HomeView = (props:any) => {
     if(observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(results => {
       if(results[0].isIntersecting && props.hasMore) {
-        console.log('Visible');
         props.setNextPage(props.pageTokens[props.pageTokens.length-1]);
       }
     })

@@ -13,7 +13,6 @@ const Trending = (props:any) => {
 
   const trendingCategoryHandler = async (e:any) => {
     e.persist();
-    console.log('22222222222222222222222',e.nativeEvent.path.filter((item:any) => item.tagName === 'BUTTON')[0].id);
     const setCategoryPage = await props.setTrendingCategoryPage(e.nativeEvent.path.filter((item:any) => item.tagName === 'BUTTON')[0].id);
     return setCategoryPage;
   }

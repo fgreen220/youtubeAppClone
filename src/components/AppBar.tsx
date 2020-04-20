@@ -130,7 +130,6 @@ const skeletonStyles = makeStyles({
       .then(response => response.json())
       .then((data:string) => {
         data = JSON.parse(data);
-        console.log(data);
         props.setSearchResultsArray((prevSearchArray:{}[]) => {
           return(
             Object.keys(prevSearchArray[0]).length === 0 ?
@@ -205,9 +204,8 @@ const skeletonStyles = makeStyles({
               classes={{modal:videoRecordClasses.modal}}
               open={videoRecordOpen}
               anchor='bottom'
-              onOpen={() => console.log('video record open')}
+              onOpen={() => null}
               onClose={() => {
-                console.log('video record drawer closed');
                 setVideoRecordOpen(() => false);
               }
             }>
@@ -233,9 +231,8 @@ const skeletonStyles = makeStyles({
             </SwipeableDrawer>
             <SwipeableDrawer
               open={searchOpen}
-              onOpen={() => console.log('5')}
+              onOpen={() => null}
               onClose={() => {
-                console.log('search drawer closed');
                 setSearchOpen(() => false)
               }}
               anchor='right'
@@ -291,7 +288,6 @@ const skeletonStyles = makeStyles({
                 event.persist();
                 if(event.target.className === 'prevSearchQueries' || event.target.id === 'searchHistoryIcon' ||
                   event.target.id === 'prevSearchQuery' || event.target === 'path'){
-                    console.log(event);
                     setVideoSearchQuery(() => event.target.innerText);
                     setSearchOpen(() => false);
                     setSearchResultsDisplay(() => true);
@@ -307,7 +303,6 @@ const skeletonStyles = makeStyles({
                         <p id='prevSearchQuery'>{prevSearch}</p>
                         <IconButton id='replace-search-value-button' 
                           onClick={() => {
-                            console.log(prevSearch);
                             searchRef.current? searchRef.current.value = prevSearch : null; 
                             // return setPrevSearchArray((prevSearches:string[]) => [prevSearch,...prevSearches.filter((item:string) => item !== prevSearch)]);
                           }}>
@@ -324,15 +319,15 @@ const skeletonStyles = makeStyles({
               anchor='right'
               open={searchResultsDisplay}
               transitionDuration={{enter:225, exit:0}}
-              onOpen={() => console.log('search result display is open')}
+              onOpen={() => null}
               onClose={() => {
                 setSearchResultsDisplay(() => false);
-                console.log('search result display closed');
               }}
             >
               <form autoComplete="off" id='searchResultsBar'>
                 <IconButton onClick={() => {
                   setSearchResultsDisplay(() => false);
+                  setSearchOpen(() => true);
                   props.setIsSearchResult(() => false);
                 }}>
                   <ArrowBack />
@@ -387,9 +382,7 @@ const skeletonStyles = makeStyles({
                         props.loadingResultsHandler(true);
                       return <div key={`${result.id.videoId}^${index}`} id='searchResultsDrawer' onClick={(event:any) => {
                         event.persist();
-                        console.log(event.target.id, event.target.tagName);
                         if((event.target.tagName === 'P' || event.target.tagName === 'DIV' || event.target.tagName === 'IMG')){
-                          console.log(event);
                           props.modalInfoLoader(index, true, props.searchResultsArray, props.searchResultsArray.length,                           result.snippet.thumbnails.high.url ?
                             result.snippet.thumbnails.high.url : result.snippet.thumbnails.medium.url ?
                             result.snippet.thumbnails.medium.url : result.snippet.thumbnails.default.url ?
@@ -486,8 +479,8 @@ const skeletonStyles = makeStyles({
             </IconButton>
             <SwipeableDrawer
               open={accountOpen}
-              onOpen={() => console.log('account drawer open')}
-              onClose={() => console.log('account drawer closed')}
+              onOpen={() => null}
+              onClose={() => null}
               classes={{root:accountClasses.root}}
               anchor='bottom'
             >
