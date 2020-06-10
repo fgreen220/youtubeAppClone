@@ -1,0 +1,729 @@
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar; }
+
+body {
+  margin: 0; }
+
+.hello {
+  color: red; }
+
+#example .MuiBottomNavigationAction-root {
+  border-top: 1px solid #9e9e9e; }
+
+.MuiBottomNavigationAction-root.Mui-selected svg {
+  color: red; }
+
+.MuiBottomNavigationAction-root.Mui-selected span {
+  color: red; }
+
+.MuiBottomNavigationAction-wrapper .MuiBottomNavigationAction-label {
+  color: #202020; }
+
+.MuiBottomNavigationAction-wrapper svg {
+  color: #202020; }
+
+.MuiButtonBase-root.MuiIconButton-root span {
+  color: #202020; }
+
+#youtubeIcon {
+  color: red;
+  height: 2.25rem;
+  width: 2.25rem; }
+
+.containerDiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
+  align-content: space-between; }
+
+.videoContainer {
+  display: grid;
+  height: 30vh;
+  background-color: #9e9e9e;
+  align-self: start; }
+
+.infoContainer {
+  display: grid;
+  height: 10vh;
+  background-color: #212121;
+  align-self: end; }
+
+.videoContainer1 {
+  display: grid;
+  grid-column: 2/3;
+  height: 30vh;
+  background-color: #9e9e9e;
+  align-self: start; }
+
+.infoContainer1 {
+  display: grid;
+  grid-column: 2/3;
+  height: 10vh;
+  background-color: #212121;
+  align-self: end; }
+
+#icon-scroll {
+  white-space: nowrap;
+  scrollbar-width: none;
+  overflow: scroll;
+  padding: 0.5vh 0 0 0; }
+  #icon-scroll .large-icon-scroll {
+    height: 100%;
+    width: 10vw;
+    margin: 1rem 0.1rem 0 0.1rem; }
+    #icon-scroll .large-icon-scroll .MuiIconButton-root {
+      padding: 0px; }
+      #icon-scroll .large-icon-scroll .MuiIconButton-root span .hidden-icon-large {
+        visibility: hidden;
+        height: 6vw;
+        width: 6vw;
+        max-height: 5rem;
+        max-width: 5rem;
+        color: black; }
+      #icon-scroll .large-icon-scroll .MuiIconButton-root span .icon-large {
+        height: 6vw;
+        width: 6vw;
+        max-height: 5rem;
+        max-width: 5rem;
+        color: black; }
+        #icon-scroll .large-icon-scroll .MuiIconButton-root span .icon-large .MuiAvatar-fallback {
+          width: 100%;
+          height: 100%; }
+  #icon-scroll .small-icon-scroll {
+    width: 15vw; }
+    #icon-scroll .small-icon-scroll span .hidden-icon-small {
+      visibility: hidden;
+      height: 6vw;
+      width: 6vw;
+      color: black; }
+    #icon-scroll .small-icon-scroll span .icon-small {
+      height: 6vw;
+      width: 6vw;
+      color: black; }
+      #icon-scroll .small-icon-scroll span .icon-small .MuiAvatar-fallback {
+        width: 100%;
+        height: 100%; }
+  #icon-scroll .account-scroll-icon {
+    display: inline-grid;
+    margin: 6px; }
+  #icon-scroll p {
+    text-align: center;
+    padding: 0 0.5rem;
+    margin: 0.5rem 0;
+    white-space: pre-wrap; }
+
+#icon-scroll::-webkit-scrollbar {
+  display: none; }
+
+#buttonScroll::-webkit-scrollbar {
+  display: none; }
+
+#buttonScroll {
+  overflow: scroll;
+  white-space: nowrap; }
+  #buttonScroll button {
+    margin: 5px;
+    width: 22.5vw; }
+
+hr {
+  border-style: solid;
+  border-width: 0.11px; }
+
+#signed-out-blurb {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  #signed-out-blurb svg {
+    width: 20vw;
+    height: 30vh;
+    color: #9e9e9e; }
+  #signed-out-blurb p {
+    text-align: center; }
+  #signed-out-blurb #notificationsCallToAction {
+    font-weight: 600; }
+  #signed-out-blurb #notificationsButton {
+    background-color: blue; }
+    #signed-out-blurb #notificationsButton .MuiButton-label {
+      color: white; }
+  #signed-out-blurb .MuiButton-root {
+    background-color: blue; }
+    #signed-out-blurb .MuiButton-root .MuiButton-label {
+      color: white; }
+
+.videoScroll::-webkit-scrollbar {
+  display: none; }
+
+.videoScroll {
+  white-space: nowrap;
+  overflow: scroll;
+  display: flex; }
+  .videoScroll div {
+    display: flex;
+    flex-direction: column;
+    width: 20vw; }
+    .videoScroll div p {
+      margin: 0 0 1.75rem 0; }
+    .videoScroll div img {
+      width: 20vw;
+      height: calc(20vw/1.7); }
+    .videoScroll div .recentVidInfoContainer {
+      display: flex;
+      flex-direction: row;
+      white-space: pre-wrap; }
+      .videoScroll div .recentVidInfoContainer p {
+        flex: 0 1 auto;
+        word-break: break-all;
+        margin: 0.875rem 0 0 0; }
+      .videoScroll div .recentVidInfoContainer button {
+        margin: 0.875rem 0 0 auto;
+        padding: 0;
+        height: fit-content;
+        width: fit-content; }
+        .videoScroll div .recentVidInfoContainer button span svg {
+          color: #9e9e9e; }
+  .videoScroll .recentDiv {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0.5rem; }
+  .videoScroll .recentDivStart {
+    margin: 0 0.5rem 0 1rem; }
+  .videoScroll .recentDivEnd {
+    margin: 0 1rem 0 0.5rem; }
+
+#library-middle {
+  display: grid;
+  justify-content: start;
+  grid-template-columns: 1fr;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 1rem 0 1rem 0; }
+  #library-middle button {
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0.5rem 0 0.5rem 1rem; }
+    #library-middle button span span svg {
+      color: #202020; }
+    #library-middle button .MuiButton-label {
+      justify-content: start; }
+
+.MuiTouchRipple-root {
+  left: -16px; }
+
+#watch-later {
+  margin: 0; }
+
+#watched-videos {
+  margin: 0; }
+
+.MuiButton-root #watch-later {
+  line-height: 1; }
+
+.MuiButton-root #watched-videos {
+  line-height: 1; }
+
+#example div .MuiFormControl-root {
+  min-width: 9rem;
+  width: 10vw; }
+
+#recentHeading {
+  margin: 1rem 0 0.5rem 1rem; }
+
+.MuiFormControl-root .MuiInput-underline:before {
+  border-bottom: none;
+  transition: none; }
+
+.MuiFormControl-root .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: none;
+  transition: none; }
+
+.MuiFormControl-root .MuiInput-underline:after {
+  border-bottom: none;
+  transition: none; }
+
+#playlist-filter {
+  display: grid;
+  justify-content: space-between;
+  padding: 0 1rem; }
+  #playlist-filter p {
+    grid-row: 1; }
+  #playlist-filter .MuiFormControl-root {
+    grid-row: 1;
+    align-self: center; }
+    #playlist-filter .MuiFormControl-root .MuiInputBase-root .MuiInput-input {
+      font-weight: 600;
+      overflow: visible;
+      padding-right: 2rem; }
+      #playlist-filter .MuiFormControl-root .MuiInputBase-root .MuiInput-input:focus {
+        background-color: transparent; }
+
+button span #newPlaylist {
+  color: blue; }
+
+button span span #addPlaylistButton {
+  color: blue; }
+
+.MuiList-root .Mui-selected {
+  color: black; }
+
+#library-bottom {
+  display: grid;
+  justify-content: start;
+  grid-template-columns: 1fr;
+  margin: 0 0 72px 0; }
+  #library-bottom :last-child.MuiButton-root.MuiButtonBase-root {
+    background-color: red; }
+    #library-bottom :last-child.MuiButton-root.MuiButtonBase-root span {
+      justify-content: center;
+      font-weight: 700; }
+  #library-bottom .playlistPicture {
+    width: 2.25rem;
+    height: 2.25rem; }
+  #library-bottom .MuiButton-root {
+    box-shadow: none;
+    background-color: transparent; }
+    #library-bottom .MuiButton-root span span .MuiSvgIcon-root {
+      color: #202020; }
+    #library-bottom .MuiButton-root span span #addPlaylistIcon {
+      color: blue; }
+    #library-bottom .MuiButton-root span .MuiTouchRipple-root {
+      left: -16px; }
+    #library-bottom .MuiButton-root .MuiButton-label {
+      justify-content: start; }
+
+.MuiButton-iconSizeMedium > *:first-child {
+  height: 2.25rem;
+  width: 2.25rem; }
+
+.video-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem 0.75rem;
+  margin: 1rem 0 0 0; }
+  .video-tiles .video-tiles-1 {
+    grid-column: 1/4;
+    max-height: 40vh;
+    min-height: 16rem;
+    width: 100%; }
+    .video-tiles .video-tiles-1 .videoThumbnail {
+      max-height: 15rem;
+      width: 100%;
+      min-height: calc((100vw/1.7)*0.7); }
+    .video-tiles .video-tiles-1 .video-tile-info-container {
+      display: grid;
+      grid-template-columns: 1fr 10fr 1fr;
+      grid-template-rows: 1fr;
+      min-height: 3rem;
+      max-height: 10%; }
+      .video-tiles .video-tiles-1 .video-tile-info-container button {
+        padding: 0;
+        height: 50%; }
+        .video-tiles .video-tiles-1 .video-tile-info-container button span {
+          position: absolute;
+          top: 0; }
+      .video-tiles .video-tiles-1 .video-tile-info-container .info-text-wrapper #video-info {
+        margin: 0 0.5rem;
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: start; }
+      .video-tiles .video-tiles-1 .video-tile-info-container .info-text-wrapper .extra-info {
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: end;
+        margin: 0; }
+      .video-tiles .video-tiles-1 .video-tile-info-container .ellipsis-menu {
+        margin: auto 0px;
+        color: black;
+        visibility: visible; }
+  .video-tiles .video-tiles-2 {
+    max-height: 40vh;
+    width: 100%;
+    min-height: 19rem; }
+    .video-tiles .video-tiles-2 .videoThumbnail {
+      max-height: 15rem;
+      width: 100%;
+      min-height: 15rem; }
+    .video-tiles .video-tiles-2 .video-tile-info-container {
+      display: grid;
+      grid-template-columns: 1fr 10fr 1fr;
+      grid-template-rows: 1fr;
+      min-height: 3rem;
+      max-height: 10%; }
+      .video-tiles .video-tiles-2 .video-tile-info-container button {
+        padding: 0;
+        height: 50%; }
+        .video-tiles .video-tiles-2 .video-tile-info-container button span {
+          position: absolute;
+          top: 0; }
+      .video-tiles .video-tiles-2 .video-tile-info-container .info-text-wrapper #video-info {
+        margin: 0 0.5rem;
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: start; }
+      .video-tiles .video-tiles-2 .video-tile-info-container .info-text-wrapper .extra-info {
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: end;
+        margin: 0; }
+      .video-tiles .video-tiles-2 .video-tile-info-container .ellipsis-menu {
+        margin: auto 0px;
+        color: black;
+        visibility: visible; }
+  .video-tiles .video-tiles-3 {
+    max-height: 40vh;
+    width: 100%;
+    min-height: 19rem; }
+    .video-tiles .video-tiles-3 .videoThumbnail {
+      max-height: 15rem;
+      width: 100%;
+      min-height: 15rem; }
+    .video-tiles .video-tiles-3 .video-tile-info-container {
+      display: grid;
+      grid-template-columns: 1fr 10fr 1fr;
+      grid-template-rows: 1fr;
+      min-height: 3rem;
+      max-height: 10%; }
+      .video-tiles .video-tiles-3 .video-tile-info-container button {
+        padding: 0;
+        height: 50%; }
+        .video-tiles .video-tiles-3 .video-tile-info-container button span {
+          position: absolute;
+          top: 0; }
+      .video-tiles .video-tiles-3 .video-tile-info-container .info-text-wrapper #video-info {
+        margin: 0 0.5rem;
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: start; }
+      .video-tiles .video-tiles-3 .video-tile-info-container .info-text-wrapper .extra-info {
+        grid-row: 1/2;
+        grid-column: 2/3;
+        align-self: end;
+        margin: 0; }
+      .video-tiles .video-tiles-3 .video-tile-info-container .ellipsis-menu {
+        margin: auto 0px;
+        color: black;
+        visibility: visible; }
+
+.hidden-ellipsis {
+  visibility: hidden;
+  margin: auto 0px;
+  color: black; }
+
+.video-tile-account-circle {
+  justify-self: start;
+  color: black;
+  grid-row: 1/3;
+  visibility: visible; }
+
+.hidden-account-circle {
+  visibility: hidden; }
+
+.modal-bg {
+  z-index: 10000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: space-around;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s, top 0.5s; }
+
+.bg-active {
+  visibility: visible;
+  opacity: 1;
+  top: 0;
+  overflow: scroll; }
+
+.modal {
+  z-index: 10000;
+  position: relative;
+  background-color: white;
+  width: 100vw;
+  min-height: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column; }
+  .modal .modal-wrapper {
+    z-index: 10000;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    top: 0; }
+  .modal .modal-video-wrapper {
+    z-index: 10000; }
+    .modal .modal-video-wrapper #modal-video {
+      height: calc(100vw/1.7);
+      max-height: 80vh;
+      width: 100vw; }
+
+.MuiExpansionPanelSummary-content div {
+  white-space: nowrap; }
+
+#modal-close {
+  font-weight: bold;
+  cursor: pointer;
+  color: red; }
+
+.modal-link {
+  cursor: pointer; }
+
+.hidden-app-bar {
+  visibility: hidden; }
+
+.bottom-nav-bar {
+  color: red; }
+
+.hidden-nav-bar {
+  visibility: hidden; }
+
+#accordion-expansion-icon {
+  color: black; }
+
+.modal-wrapper .MuiPaper-elevation1 {
+  box-shadow: none; }
+
+.MuiExpansionPanelSummary-root .MuiExpansionPanelSummary-content {
+  flex-direction: column; }
+  .MuiExpansionPanelSummary-root .MuiExpansionPanelSummary-content p {
+    margin: 0; }
+  .MuiExpansionPanelSummary-root .MuiExpansionPanelSummary-content .MuiButton-contained {
+    box-shadow: none;
+    background-color: transparent; }
+    .MuiExpansionPanelSummary-root .MuiExpansionPanelSummary-content .MuiButton-contained:hover {
+      box-shadow: none;
+      background-color: transparent; }
+
+.MuiExpansionPanelSummary-root .expansion-icon-wrapper {
+  position: relative; }
+  .MuiExpansionPanelSummary-root .expansion-icon-wrapper .MuiExpansionPanelSummary-expandIcon {
+    position: absolute;
+    top: 0; }
+
+.expansion-summary-rule {
+  border: 0.05em solid rgba(0, 0, 0, 0.06); }
+
+.MuiExpansionPanelDetails-root p {
+  white-space: pre-wrap; }
+
+#comment-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1.5rem; }
+  #comment-controls h1 {
+    display: inline; }
+  #comment-controls .MuiIconButton-root {
+    padding: 0; }
+  #comment-controls .MuiSvgIcon-root {
+    color: #9e9e9e; }
+
+#simple-popper .MuiPaper-root {
+  display: grid; }
+
+#comment-add {
+  display: flex;
+  padding: 0 0 0 1.5rem;
+  margin: 0 0 1rem 0; }
+  #comment-add .MuiTextField-root {
+    flex: 1 1 auto; }
+  #comment-add .MuiInput-root {
+    margin: 0 0 0 1rem; }
+    #comment-add .MuiInput-root .MuiInput-input {
+      min-width: 20rem; }
+
+#comment-data {
+  display: grid;
+  grid-gap: 1rem 0;
+  padding: 0 1.5rem; }
+  #comment-data #comment-main {
+    display: flex; }
+    #comment-data #comment-main #comment-info {
+      flex-direction: column;
+      width: 100%; }
+    #comment-data #comment-main p {
+      margin: 0 0 0 1rem; }
+    #comment-data #comment-main #comment-actions {
+      display: flex; }
+      #comment-data #comment-main #comment-actions .comment-data-count {
+        padding: 0.75rem 0; }
+      #comment-data #comment-main #comment-actions svg {
+        color: #9e9e9e; }
+      #comment-data #comment-main #comment-actions #comment-report {
+        margin-left: auto; }
+
+.MuiDrawer-modal .MuiDrawer-paperAnchorRight {
+  width: 100%;
+  border-bottom: 1px solid #9e9e9e; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight .MuiLink-root {
+    cursor: pointer; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer {
+    display: grid;
+    background-color: white; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer .prevSearchQueries {
+      display: flex;
+      align-items: center;
+      margin: 0 0 0 0.75rem; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer .prevSearchQueries svg {
+        color: #9e9e9e; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer .prevSearchQueries p {
+        margin: 0 0 0 1.5rem;
+        color: black; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer .prevSearchQueries #replace-search-value-button {
+        margin: 0 0 0 auto; }
+        .MuiDrawer-modal .MuiDrawer-paperAnchorRight #prevSearchQueriesContainer .prevSearchQueries #replace-search-value-button #replace-search-value-icon {
+          transform: rotate(-90deg); }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent {
+    display: flex;
+    background-color: white; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent svg {
+      color: #202020; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent button {
+      width: fit-content;
+      height: fit-content; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent form {
+      width: 100%;
+      height: fit-content;
+      display: flex; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent form .MuiFormControl-root {
+        width: 100%;
+        align-self: center; }
+        .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchComponent form .MuiFormControl-root .MuiInputBase-root {
+          padding: 0 0.75rem 0 0; }
+
+.MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsBar {
+  grid-column: 1/span 2;
+  align-items: center;
+  height: fit-content;
+  display: flex;
+  background-color: white; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsBar .MuiFormControl-root {
+    flex-grow: 1; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsBar button span svg {
+    color: #202020; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsBar #searchResultButtonGroup {
+    display: flex;
+    margin: 0 0 0 auto;
+    color: #202020; }
+
+.MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList {
+  display: 'grid';
+  grid-template-columns: '1fr 1fr'; }
+  .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer {
+    display: flex;
+    margin: 0.75rem 0 0.75rem 0.75rem;
+    cursor: pointer; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer .searchResultImage {
+      margin: 0 0.75rem 0 0;
+      width: 15vw;
+      height: calc(15vw/1.7); }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer .videoSearchInfo p {
+      margin: 0; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer .videoSearchInfo p:last-child {
+        font-size: 0.75rem; }
+    .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer .MuiIconButton-root {
+      margin: 0 0 0 auto;
+      height: fit-content;
+      width: fit-content;
+      padding: 0; }
+      .MuiDrawer-modal .MuiDrawer-paperAnchorRight #searchResultsList #searchResultsDrawer .MuiIconButton-root span svg {
+        color: #9e9e9e; }
+
+#videoRecordContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; }
+  #videoRecordContainer svg {
+    height: 30vh;
+    width: 60vw;
+    color: #9e9e9e; }
+  #videoRecordContainer p {
+    color: white;
+    text-align: center; }
+  #videoRecordContainer button {
+    background-color: blue;
+    color: white; }
+
+#videoRecordDrawerClose {
+  justify-content: flex-start; }
+  #videoRecordDrawerClose span {
+    color: white; }
+
+#videoRecordCallToAction {
+  font-weight: 600;
+  font-size: x-large; }
+
+.recentVidActionButton.MuiIconButton-root:hover {
+  background-color: transparent; }
+
+#account-drawer {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  #account-drawer #account-drawer-icon {
+    height: 30vh;
+    width: 60vw; }
+  #account-drawer button {
+    background-color: blue; }
+    #account-drawer button .MuiButton-label {
+      color: white; }
+
+#account-drawer-bottom {
+  width: 100%; }
+  #account-drawer-bottom button {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    background-color: transparent;
+    box-shadow: none; }
+    #account-drawer-bottom button span p {
+      color: #202020; }
+    #account-drawer-bottom button span span svg {
+      color: #202020; }
+
+.MuiDrawer-paperAnchorBottom .MuiAppBar-root {
+  background-color: white; }
+  .MuiDrawer-paperAnchorBottom .MuiAppBar-root div h1 {
+    color: black;
+    font-weight: 400; }
+  .MuiDrawer-paperAnchorBottom .MuiAppBar-root .MuiToolbar-root {
+    padding: 0; }
+
+#no-search-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 70vh; }
+  #no-search-results svg {
+    width: 20vw;
+    height: 30vh;
+    color: purple; }
+  #no-search-results #no-search-results-title {
+    font-weight: 700;
+    font-size: 3rem; }
+
+.spinner5 {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  border: 1px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: spin 600ms infinite linear; }
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg); } }

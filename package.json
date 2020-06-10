@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "scss": "node-sass --watch src -o dist"
   },
   "repository": {
     "type": "git",
